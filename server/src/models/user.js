@@ -3,8 +3,8 @@ const { Schema } = mongoose;
 
 // define shape of the User documents in the collection
 const userSchema = new Schema({
-  name: String,
-  contact: String,
+  // name: String,
+  // contact: String,
   email: String,
   password: String,
   role: {
