@@ -3,6 +3,7 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
+import {Button} from '@nextui-org/button';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -53,6 +54,7 @@ const ValidationSchemaExample = () => (
     <p>
       Don't have an account? <Link href="/register">Create new</Link>
     </p>
+    <Button>Click Me</Button>
   </div>
 );
 

@@ -1,5 +1,5 @@
-import Header from "@/components/Header";
 import "./globals.css";
+import NextUIProviders from "./Providers";
 
 export const metadata = {
   title: "Create Next App",
@@ -10,8 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
+        <NextUIProviders>{children}</NextUIProviders>
       </body>
     </html>
   );
