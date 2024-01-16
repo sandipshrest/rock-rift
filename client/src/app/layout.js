@@ -1,3 +1,4 @@
+import Header from "@/components/Header";
 import "./globals.css";
 import NextUIProviders from "./Providers";
 
@@ -10,7 +11,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <NextUIProviders>{children}</NextUIProviders>
+        <NextUIProviders>
+          <Header />
+          {children}
+        </NextUIProviders>
       </body>
     </html>
   );

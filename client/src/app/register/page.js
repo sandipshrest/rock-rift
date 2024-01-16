@@ -3,6 +3,7 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
+import { Input } from "@nextui-org/react";
 
 const SignupSchema = Yup.object().shape({
   fullName: Yup.string()
@@ -18,92 +19,116 @@ const SignupSchema = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Passwords does not match"),
 });
 
-const ValidationSchemaExample = () => (
-  <div className="w-full h-screen flex flex-col gap-8 justify-center items-center">
-    <h1 className="text-2xl font-semibold">Signup</h1>
-    <Formik
-      initialValues={{
-        fullName: "",
-        email: "",
-        password: "",
-        rePassword: "",
-      }}
-      validationSchema={SignupSchema}
-      onSubmit={(values, actions) => {
-        // same shape as initial values
-        console.log(values);
-        actions.resetForm();
-      }}
-    >
-      {({ errors, touched }) => (
-        <Form className="flex flex-col items-center gap-6 w-1/3">
-          <div className="flex w-full gap-4">
-            <div className="flex flex-col items-start w-full">
-              <Field
-                name="fullName"
-                type="text"
-                placeholder="Full name"
-                className="border border-gray-600 rounded-sm p-2 w-full focus:outline-none"
-              />
-              <div className="w-full h-2">
-                {errors.fullName && touched.fullName ? (
-                  <p className="text-sm text-red-600 font-medium">{errors.fullName}</p>
-                ) : null}
-              </div>
-            </div>
-            <div className="flex flex-col items-start w-full gap-1">
-              <Field
-                name="email"
-                type="email"
-                placeholder="Email"
-                className="border border-gray-600 rounded-sm p-2 w-full focus:outline-none"
-              />
-              <div className="w-full h-2">
-                {errors.email && touched.email ? <p className="text-sm text-red-600 font-medium">{errors.email}</p> : null}
-              </div>
-            </div>
-          </div>
-          <div className="flex w-full gap-4">
-            <div className="flex flex-col items-start w-full">
-              <Field
-                name="password"
-                type="password"
-                placeholder="Password"
-                className="border border-gray-600 rounded-sm p-2 w-full focus:outline-none"
-              />
-              <div className="w-full h-2">
-                {errors.password && touched.password ? (
-                  <p className="text-sm text-red-600 font-medium">{errors.password}</p>
-                ) : null}
-              </div>
-            </div>
-            <div className="flex flex-col items-start w-full">
-              <Field
-                name="rePassword"
-                type="password"
-                placeholder="Re-Enter Password"
-                className="border border-gray-600 rounded-sm p-2 w-full focus:outline-none"
-              />
-              <div className="w-full h-2">
-                {errors.rePassword && touched.rePassword ? (
-                  <p className="text-sm text-red-600 font-medium">{errors.rePassword}</p>
-                ) : null}
-              </div>
-            </div>
-          </div>
-          <button
-            type="submit"
-            className="bg-gray-900 text-white py-1 px-2 rounded-md"
-          >
-            Submit
-          </button>
-        </Form>
-      )}
-    </Formik>
-    <p>
-      Already have an account? <Link href="/login">Login</Link>
-    </p>
-  </div>
-);
+const Register = () => {
+  const handleRegister = (values) => {
+    fetch("http://localhost:5000/register/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+  };
 
-export default ValidationSchemaExample;
+  return (
+    <div className="w-full h-screen flex flex-col gap-8 justify-center items-center">
+      <h1 className="text-2xl font-semibold">Signup</h1>
+      <Formik
+        initialValues={{
+          fullName: "",
+          email: "",
+          password: "",
+          rePassword: "",
+        }}
+        validationSchema={SignupSchema}
+        onSubmit={(values, actions) => {
+          alert("User registered successfully!");
+          handleRegister(values);
+          actions.resetForm();
+        }}
+      >
+        {({ errors, touched, handleChange }) => (
+          <Form className="flex flex-col items-center gap-6 w-1/3">
+            <div className="flex w-full gap-4">
+              <div className="flex flex-col items-start w-full">
+                <Input
+                  type="text"
+                  name="fullName"
+                  variant="underlined"
+                  label="Full Name"
+                  onChange={handleChange}
+                />
+                <div className="w-full h-2">
+                  {errors.fullName && touched.fullName ? (
+                    <p className="text-sm text-brandColor font-medium">
+                      {errors.fullName}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+              <div className="flex flex-col items-start w-full gap-1">
+                <Input
+                  type="email"
+                  name="email"
+                  variant="underlined"
+                  label="Email"
+                  onChange={handleChange}
+                />
+                <div className="w-full h-2">
+                  {errors.email && touched.email ? (
+                    <p className="text-sm text-brandColor font-medium">
+                      {errors.email}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+            <div className="flex w-full gap-4">
+              <div className="flex flex-col items-start w-full">
+                <Input
+                  type="password"
+                  name="password"
+                  variant="underlined"
+                  label="Enter Password"
+                  onChange={handleChange}
+                />
+                <div className="w-full h-2">
+                  {errors.password && touched.password ? (
+                    <p className="text-sm text-brandColor font-medium">
+                      {errors.password}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+              <div className="flex flex-col items-start w-full">
+                <Input
+                  type="password"
+                  name="rePassword"
+                  variant="underlined"
+                  label="Re-Enter Password"
+                  onChange={handleChange}
+                />
+                <div className="w-full h-2">
+                  {errors.rePassword && touched.rePassword ? (
+                    <p className="text-sm text-brandColor font-medium">
+                      {errors.rePassword}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="bg-thirdColor text-white py-1 px-2"
+            >
+              Submit
+            </button>
+          </Form>
+        )}
+      </Formik>
+      <p>
+        Already have an account? <Link href="/login">Login</Link>
+      </p>
+    </div>
+  );
+};
+
+export default Register;
