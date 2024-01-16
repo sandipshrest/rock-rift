@@ -1,9 +1,10 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import { Input } from "@nextui-org/react";
+import { toast } from "react-hot-toast";
 
 const SignupSchema = Yup.object().shape({
   fullName: Yup.string()
@@ -20,12 +21,23 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Register = () => {
-  const handleRegister = (values) => {
-    fetch("http://localhost:5000/register/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
+  const handleRegister = async (values) => {
+    try {
+      const response = await fetch("http://localhost:5000/register/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      if (response.status === 201) {
+        const result = await response.json();
+        toast.success(result.msg);
+      } else {
+        const err = await response.json();
+        toast.error(err.msg);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -39,10 +51,9 @@ const Register = () => {
           rePassword: "",
         }}
         validationSchema={SignupSchema}
-        onSubmit={(values, actions) => {
-          alert("User registered successfully!");
+        onSubmit={(values, { resetForm }) => {
           handleRegister(values);
-          actions.resetForm();
+          resetForm();
         }}
       >
         {({ errors, touched, handleChange }) => (
