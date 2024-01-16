@@ -10,3 +10,15 @@ ___
 - [ ] Multiple pages like home, product, cart, wishlist, login etc.
 - [ ] Profile section for users
       
+___
+
+## Technology Used
+
+### Frontend
+Next.js
+
+### Backend
+Node.js, Express
+
+### Database
+MongoDB
