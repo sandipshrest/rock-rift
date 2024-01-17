@@ -173,12 +173,12 @@ const Register = () => {
             </div>
           </div>
           <button type="submit" className="bg-thirdColor text-white py-1 px-2">
-            Submit
+            Sign Up
           </button>
         </form>
       </Formik>
       <p>
-        Already have an account? <Link href="/login">Login</Link>
+        Already have an account? <Link href="/login" className="text-red-600 font-medium underline">Login</Link>
       </p>
     </div>
   );

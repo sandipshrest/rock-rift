@@ -7,7 +7,7 @@ import { CiHeart } from "react-icons/ci";
 
 const Header = () => {
   return (
-    <header className="py-3 fixed top-0 w-full bg-transparent">
+    <header className="py-3 fixed top-0 w-full bg-transparent z-30">
       <div className="container flex items-center justify-between">
         <Link href="/">
           <Image
