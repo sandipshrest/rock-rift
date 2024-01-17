@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
@@ -28,12 +28,12 @@ const Register = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
+      const result = await response.json();
+      console.log(result)
       if (response.status === 201) {
-        const result = await response.json();
         toast.success(result.msg);
       } else {
-        const err = await response.json();
-        toast.error(err.msg);
+        toast.error(result.msg);
       }
     } catch (err) {
       console.log(err);
