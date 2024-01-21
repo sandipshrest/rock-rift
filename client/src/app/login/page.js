@@ -4,8 +4,8 @@ import { Formik, Form, Field, useFormik } from "formik";
 import * as Yup from "yup";
 import { Input } from "@nextui-org/react";
 import Link from "next/link";
+import { toast } from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
-
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -16,22 +16,21 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (values) => {
-    console.log(values);
-    // try {
-    //   const response = await fetch("http://localhost:5000/register/", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(values),
-    //   });
-    //   const result = await response.json();
-    //   if (response.status === 201) {
-    //     toast.success(result.msg);
-    //   } else {
-    //     toast.error(result.msg);
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      const response = await fetch("http://localhost:5000/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      const result = await response.json();
+      if (response.status === 201) {
+        toast.success(result.msg);
+      } else {
+        toast.error(result.msg);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const { handleSubmit, resetForm, handleChange, values, errors, touched } =
@@ -40,7 +39,7 @@ const Login = () => {
         email: "",
         password: "",
       },
-      LoginSchema,
+      validationSchema: LoginSchema,
       onSubmit: (values) => {
         handleLogin(values);
         resetForm();
@@ -84,14 +83,10 @@ const Login = () => {
                   className="flex justify-center items-center cursor-pointer w-[20px] h-[20px] rounded-full bg-gray-200 text-xs absolute top-1/2 -translate-y-1/2 right-2"
                 >
                   <FaEye
-                    className={`${
-                      showPassword ? "inline-block" : "hidden"
-                    }`}
+                    className={`${showPassword ? "inline-block" : "hidden"}`}
                   />
                   <FaEyeSlash
-                    className={`${
-                      showPassword ? "hidden" : "inline-block"
-                    }`}
+                    className={`${showPassword ? "hidden" : "inline-block"}`}
                   />
                 </span>
               )}
