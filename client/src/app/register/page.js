@@ -7,6 +7,7 @@ import { Input } from "@nextui-org/react";
 import { toast } from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const SignupSchema = Yup.object().shape({
   fullName: Yup.string()
@@ -23,6 +24,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Register = () => {
+  const { userName } = useSelector((state) => state.user);
   const router = useRouter();
   const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [showReSignupPassword, setShowReSignupPassword] = useState(false);
@@ -64,6 +66,7 @@ const Register = () => {
   return (
     <div className="w-full h-screen flex flex-col gap-8 justify-center items-center">
       <h1 className="text-2xl font-semibold">Signup</h1>
+      {userName}
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center gap-6 w-1/3"

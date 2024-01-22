@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import "./globals.css";
-import NextUIProviders from "./Providers";
+import NextUIProvider from "./Providers";
+import ReduxProvider from "@/redux/reduxProvider";
 import { Toaster } from "react-hot-toast";
 
 export const metadata = {
@@ -12,28 +13,30 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <NextUIProviders>
-          <Header />
-          {children}
-          <Toaster
-            position="top-right"
-            gutter={12}
-            containerStyle={{ margin: "8px" }}
-            toastOptions={{
-              success: {
-                duration: 2500,
-              },
-              error: {
-                duration: 4000,
-              },
-              style: {
-                fontSize: "16px",
-                maxWidth: "500px",
-                padding: "16px 24px",
-              },
-            }}
-          />
-        </NextUIProviders>
+        <ReduxProvider>
+          <NextUIProvider>
+            <Header />
+            {children}
+            <Toaster
+              position="top-right"
+              gutter={12}
+              containerStyle={{ margin: "8px" }}
+              toastOptions={{
+                success: {
+                  duration: 2500,
+                },
+                error: {
+                  duration: 4000,
+                },
+                style: {
+                  fontSize: "16px",
+                  maxWidth: "500px",
+                  padding: "16px 24px",
+                },
+              }}
+            />
+          </NextUIProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
