@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { loginUser } from "@/redux/reducerSlice/userSlice";
+import { useRouter } from "next/navigation";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -15,6 +16,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = () => {
+  const router = useRouter()
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -29,6 +31,7 @@ const Login = () => {
       if (response.status === 201) {
         toast.success(result.msg);
         dispatch(loginUser(result));
+        router.push('/')
       } else {
         toast.error(result.msg);
       }
