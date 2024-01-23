@@ -1,19 +1,25 @@
 // userSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  userName: "Ram",
-  age: 0,
+  isLogin: false,
+  token: "",
+  userDetail: {},
 };
 
 // Redux Toolkit slice
 export const userSlice = createSlice({
-  name: "counter",
+  name: "user",
   initialState,
   reducers: {
-    increment: (state) => {
-      state.age += 1;
+    loginUser: (state, actions) => {
+      return {
+        ...state,
+        isLogin: true,
+        token: actions.payload.token,
+        userDetail: actions.payload.userDetail,
+      };
     },
   },
 });
-export const { increment } = userSlice.actions;
+export const { loginUser } = userSlice.actions;
 export default userSlice.reducer;

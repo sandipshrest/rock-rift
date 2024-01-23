@@ -32,7 +32,9 @@ const loginUser = async (req, res) => {
           { email: userDetail.email },
           process?.env.SECRET_KEY
         );
-        return res.status(201).json({ msg: "Login Successfully", token });
+        return res
+          .status(201)
+          .json({ msg: "Login Successfully", token, userDetail });
       } else {
         return res.status(403).json({ msg: "Password didn't match" });
       }
