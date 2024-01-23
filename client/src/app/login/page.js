@@ -16,7 +16,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = () => {
-  const router = useRouter()
+  const router = useRouter();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,7 +31,7 @@ const Login = () => {
       if (response.status === 201) {
         toast.success(result.msg);
         dispatch(loginUser(result));
-        router.push('/')
+        router.push("/");
       } else {
         toast.error(result.msg);
       }
