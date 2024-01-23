@@ -3,14 +3,18 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const saltRounds = 10;
 
+// register new user
 const registerNewUser = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
       return res.status(403).json({ msg: "User already exists." });
     } else {
-      const hashPassword = await bcrypt.hash(req.body.password, saltRounds);
-      req.body.password = hashPassword;
+      const hashPassword = {
+        password: await bcrypt.hash(req.body.password, saltRounds),
+        rePassword: await bcrypt.hash(req.body.rePassword, saltRounds),
+      };
+      req.body = { ...req.body, ...hashPassword };
       await User.create(req.body);
       res.status(201).json({ msg: "registered successfully!" });
     }
@@ -19,6 +23,7 @@ const registerNewUser = async (req, res) => {
   }
 };
 
+// login user
 const loginUser = async (req, res) => {
   try {
     const userDetail = await User.findOne({ email: req.body.email });
