@@ -36,7 +36,7 @@ const Login = () => {
         toast.error(result.msg);
       }
     } catch (err) {
-      console.log(err);
+      toast.error("Filed to login!");
     }
   };
 

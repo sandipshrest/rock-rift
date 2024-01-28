@@ -42,7 +42,7 @@ const Register = () => {
         toast.error(result.msg);
       }
     } catch (err) {
-      console.log(err);
+      toast.error("Failed to register!");
     }
   };
 

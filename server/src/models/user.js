@@ -8,5 +8,12 @@ const userSchema = new Schema({
   password: String,
   rePassword: String,
 });
+
+const categorySchema = new Schema({
+  category: String,
+  subCategory: Array,
+});
+
 const User = mongoose.model("User", userSchema);
-module.exports = User;
+const Category = mongoose.model("Category", categorySchema);
+module.exports = { User, Category };
