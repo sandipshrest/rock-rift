@@ -19,8 +19,12 @@ const addCategory = async (req, res) => {
 
 //get category
 const getAllCategory = async (req, res) => {
-  const categories = await Category.find();
-  res.json(categories);
+  try {
+    const categories = await Category.find();
+    res.json(categories);
+  } catch {
+    res.status(400).json({ msg: "Failed to fetch category" });
+  }
 };
 
 module.exports = { addCategory, getAllCategory };
