@@ -2,14 +2,16 @@
 import React, { useEffect, useState } from "react";
 import Banner from "./Banner";
 import Image from "next/image";
+import axios from "axios";
 
 const Main = () => {
   const [products, setProducts] = useState([]);
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/admin/products");
-      const data = await response.json();
-      setProducts(data);
+      const { data: res } = await axios.get(
+        "http://localhost:5000/admin/products"
+      );
+      setProducts(res);
     } catch (err) {
       console.log(err);
     }
