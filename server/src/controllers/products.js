@@ -17,4 +17,14 @@ const addProduct = async (req, res) => {
   }
 };
 
-module.exports = addProduct;
+//fetch products
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+module.exports = { addProduct, getAllProducts };
