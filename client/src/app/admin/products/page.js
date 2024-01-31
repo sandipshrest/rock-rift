@@ -11,6 +11,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const ProductSchema = Yup.object().shape({
   product: Yup.string().required("Required"),
@@ -25,8 +26,9 @@ const Product = () => {
   const [categories, setCategories] = useState([]);
   const fetchProduct = async () => {
     try {
-      const response = await fetch("http://localhost:5000/admin/categories");
-      const data = await response.json();
+      const { data } = await axios.get(
+        "http://localhost:5000/admin/categories"
+      );
       setCategories(data);
     } catch (err) {
       console.log(err);
@@ -39,17 +41,10 @@ const Product = () => {
 
   const handleAdd = async (values) => {
     try {
-      const response = await fetch("http://localhost:5000/admin/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      const result = await response.json();
-      if (response.status === 201) {
-        toast.success(result.msg);
-      } else {
-        toast.error(result.msg);
-      }
+      const { data } = await axios.post(
+        "http://localhost:5000/admin/products",
+        values
+      );
     } catch (err) {
       console.log(err);
     }

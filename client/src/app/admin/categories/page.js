@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { Input } from "@nextui-org/react";
 import { toast } from "react-hot-toast";
 import CreatableSelect from "react-select/creatable";
+import axios from "axios";
 
 const CategorySchema = Yup.object().shape({
   category: Yup.string().required("Required"),
@@ -13,17 +14,10 @@ const CategorySchema = Yup.object().shape({
 const Category = () => {
   const handleAdd = async (values) => {
     try {
-      const response = await fetch("http://localhost:5000/admin/categories", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      const result = await response.json();
-      if (response.status === 201) {
-        toast.success(result.msg);
-      } else {
-        toast.error(result.msg);
-      }
+      const { data } = await axios.post(
+        "http://localhost:5000/admin/categories",
+        values
+      );
     } catch (err) {
       console.log(err);
     }

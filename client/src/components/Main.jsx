@@ -8,10 +8,8 @@ const Main = () => {
   const [products, setProducts] = useState([]);
   const fetchProducts = async () => {
     try {
-      const { data: res } = await axios.get(
-        "http://localhost:5000/admin/products"
-      );
-      setProducts(res);
+      const { data } = await axios.get("http://localhost:5000/admin/products");
+      setProducts(data);
     } catch (err) {
       console.log(err);
     }
@@ -19,7 +17,6 @@ const Main = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
-  console.log(products);
 
   return (
     <>
