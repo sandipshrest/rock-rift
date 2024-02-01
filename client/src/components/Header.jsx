@@ -20,7 +20,7 @@ const Header = () => {
   const { isLogin, userDetail } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   return (
-    <header className="py-3 fixed top-0 w-full bg-transparent z-30">
+    <header className="py-3 fixed top-0 w-full bg-white z-30 border-b border-gray-300">
       <div className="container flex items-center justify-between">
         <Link href="/">
           <Image
