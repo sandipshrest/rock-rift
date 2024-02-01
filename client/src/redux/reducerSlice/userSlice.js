@@ -1,4 +1,3 @@
-// userSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isLogin: false,
@@ -6,20 +5,19 @@ const initialState = {
   userDetail: {},
 };
 
-// Redux Toolkit slice
-export const userSlice = createSlice({
+const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    loginUser: (state, actions) => {
+    loginUser: (state, action) => {
       return {
         ...state,
         isLogin: true,
-        token: actions.payload.token,
-        userDetail: actions.payload.userDetail,
+        token: action.payload.token,
+        userDetail: action.payload.userDetail,
       };
     },
-    logoutUser: (state, actions) => {
+    logoutUser: (state, action) => {
       return {
         ...initialState,
       };
