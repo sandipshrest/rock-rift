@@ -7,8 +7,12 @@ ___
 ## Features
 
 - [ ] Login & signup for user
+- [ ] Change password
 - [ ] Multiple pages like home, product, cart, wishlist, login etc.
 - [ ] Profile section for users
+- [ ] Show product category, product list according to their popularity, featured etc.
+- [ ] User can add product the cart & wishlist so that they can order anytime
+- [ ] Search product, category & subcategory etc.
       
 ___
 
