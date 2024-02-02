@@ -12,6 +12,11 @@ const ProductItem = ({ item }) => {
   const wishlistItems = useSelector((state) => state.wishlist);
   const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+
+  const itemInStore = (itemList, item) => {
+    return itemList?.some((storeItem) => storeItem._id === item._id);
+  };
+
   return (
     <div className="group bg-gray-50 rounded-md flex flex-col items-start gap-1 p-3 border border-gray-500 relative">
       <Image
@@ -24,7 +29,7 @@ const ProductItem = ({ item }) => {
       />
       <div className="flex gap-3 absolute left-1/2 -translate-x-1/2 top-52 opacity-0 group-hover:top-44 group-hover:opacity-100 transition-all duration-300 ease-linear">
         <button
-          disabled={cartItems.includes(item)}
+          disabled={itemInStore(cartItems, item)}
           onClick={() => dispatch(addCart(item))}
           className="flex w-8 h-8 justify-center items-center border border-gray-600 rounded-full hover:bg-rose-600 hover:text-white hover:border-white transition-all duration-200 ease-linear"
         >
@@ -34,7 +39,7 @@ const ProductItem = ({ item }) => {
           <FaRegEye />
         </button>
         <button
-          disabled={wishlistItems.includes(item)}
+          disabled={itemInStore(wishlistItems, item)}
           onClick={() => dispatch(addWishlist(item))}
           className="flex w-8 h-8 justify-center items-center border border-gray-600 rounded-full hover:bg-rose-600 hover:text-white hover:border-white transition-all duration-200 ease-linear"
         >
