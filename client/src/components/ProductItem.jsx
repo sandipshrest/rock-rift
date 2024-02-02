@@ -31,7 +31,7 @@ const ProductItem = ({ item }) => {
         <button
           disabled={itemInStore(cartItems, item)}
           onClick={() => dispatch(addCart(item))}
-          className="flex w-8 h-8 justify-center items-center border border-gray-600 rounded-full hover:bg-rose-600 hover:text-white hover:border-white transition-all duration-200 ease-linear"
+          className={`${cartItems.includes(item) ? 'bg-black text-white': 'hover:bg-rose-600 hover:text-white hover:border-white'} flex w-8 h-8 justify-center items-center border border-gray-600 rounded-full transition-all duration-200 ease-linear`}
         >
           <FiShoppingCart />
         </button>
@@ -41,7 +41,7 @@ const ProductItem = ({ item }) => {
         <button
           disabled={itemInStore(wishlistItems, item)}
           onClick={() => dispatch(addWishlist(item))}
-          className="flex w-8 h-8 justify-center items-center border border-gray-600 rounded-full hover:bg-rose-600 hover:text-white hover:border-white transition-all duration-200 ease-linear"
+          className={`${wishlistItems.includes(item) ? 'bg-red-600 text-white border-white': 'hover:bg-rose-600 hover:text-white hover:border-white border-gray-600'} flex w-8 h-8 justify-center items-center border rounded-full transition-all duration-200 ease-linear`}
         >
           <FaRegHeart />
         </button>

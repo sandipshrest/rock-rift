@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { CiHeart } from "react-icons/ci";
@@ -15,10 +15,17 @@ import {
 } from "@nextui-org/react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "@/redux/reducerSlice/userSlice";
+import Cart from "./Cart";
+import Wishlist from "./Wishlist";
 
 const Header = () => {
   const { isLogin, userDetail } = useSelector((state) => state.user);
+  const cartItems = useSelector((state) => state.cart);
+  const wishlistItems = useSelector((state) => state.wishlist);
+
   const dispatch = useDispatch();
+  const [toggleCart, setToggleCart] = useState(false);
+  const [toggleWishlist, setToggleWishlist] = useState(false);
   return (
     <header className="py-3 fixed top-0 w-full bg-white z-30 border-b border-gray-300">
       <div className="container flex items-center justify-between">
@@ -49,12 +56,22 @@ const Header = () => {
           </ul>
         </nav>
         <div className="flex gap-5 items-center">
-          <Link href="/#" className="text-xl">
+          <button
+            disabled={toggleWishlist}
+            onClick={() => setToggleCart(!toggleCart)}
+            className="text-xl relative"
+          >
+            <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-xs text-white rounded-full">{cartItems.length}</span>
             <IoCartOutline />
-          </Link>
-          <Link href="/#" className="text-xl">
+          </button>
+          <button
+            disabled={toggleCart}
+            onClick={() => setToggleWishlist(!toggleWishlist)}
+            className="text-xl relative"
+          >
+            <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-xs text-white rounded-full">{wishlistItems.length}</span>
             <CiHeart />
-          </Link>
+          </button>
           {isLogin ? (
             <Dropdown placement="bottom-start">
               <DropdownTrigger>
@@ -98,6 +115,8 @@ const Header = () => {
           )}
         </div>
       </div>
+      <Cart toggleCart={toggleCart} />
+      <Wishlist toggleWishlist={toggleWishlist} />
     </header>
   );
 };
