@@ -5,8 +5,10 @@ import { FiShoppingCart } from "react-icons/fi";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const ProductItem = ({ item }) => {
+  const { isLogin } = useSelector((state) => state.user);
   const [cartItems, setCartItems] = useState([]);
 
   const fetchCart = async () => {
@@ -55,7 +57,11 @@ const ProductItem = ({ item }) => {
       <div className="flex gap-3 absolute left-1/2 -translate-x-1/2 top-52 opacity-0 group-hover:top-44 group-hover:opacity-100 transition-all duration-300 ease-linear">
         <button
           disabled={itemInStore(cartItems, item)}
-          onClick={() => handleAddCart(item)}
+          onClick={() => {
+            isLogin
+              ? handleAddCart(item)
+              : toast.error("Login first to add cart!");
+          }}
           className={`flex w-8 h-8 justify-center items-center border border-gray-600 rounded-full transition-all duration-200 ease-linear`}
         >
           <FiShoppingCart />

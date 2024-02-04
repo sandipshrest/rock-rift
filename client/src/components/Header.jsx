@@ -120,8 +120,8 @@ const Header = () => {
           )}
         </div>
       </div>
-      <Cart toggleCart={toggleCart} />
-      <Wishlist toggleWishlist={toggleWishlist} />
+      {/* <Cart toggleCart={toggleCart} />
+      <Wishlist toggleWishlist={toggleWishlist} /> */}
     </header>
   );
 };
