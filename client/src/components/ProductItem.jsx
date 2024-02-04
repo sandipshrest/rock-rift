@@ -1,20 +1,45 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
-import { addCart } from "@/redux/reducerSlice/cartSlice";
-import { addWishlist } from "@/redux/reducerSlice/wishlistSlice";
-import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const ProductItem = ({ item }) => {
-  const wishlistItems = useSelector((state) => state.wishlist);
-  const cartItems = useSelector((state) => state.cart);
-  const dispatch = useDispatch();
+  const [cartItems, setCartItems] = useState([]);
+
+  const fetchCart = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/");
+      const data = await response.json();
+      setCartItems(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCart();
+  }, []);
 
   const itemInStore = (itemList, item) => {
-    return itemList?.some((storeItem) => storeItem._id === item._id);
+    return itemList?.some((storeItem) => storeItem.product === item.product);
+  };
+
+  const handleAddCart = async (value) => {
+    try {
+      const response = await fetch("http://localhost:5000/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(value),
+      });
+      if (response.ok) {
+        fetchCart();
+      }
+    } catch (err) {
+      toast.error("Failed to add to the cart!");
+    }
   };
 
   return (
@@ -30,8 +55,8 @@ const ProductItem = ({ item }) => {
       <div className="flex gap-3 absolute left-1/2 -translate-x-1/2 top-52 opacity-0 group-hover:top-44 group-hover:opacity-100 transition-all duration-300 ease-linear">
         <button
           disabled={itemInStore(cartItems, item)}
-          onClick={() => dispatch(addCart(item))}
-          className={`${cartItems.includes(item) ? 'bg-black text-white': 'hover:bg-rose-600 hover:text-white hover:border-white'} flex w-8 h-8 justify-center items-center border border-gray-600 rounded-full transition-all duration-200 ease-linear`}
+          onClick={() => handleAddCart(item)}
+          className={`flex w-8 h-8 justify-center items-center border border-gray-600 rounded-full transition-all duration-200 ease-linear`}
         >
           <FiShoppingCart />
         </button>
@@ -39,9 +64,7 @@ const ProductItem = ({ item }) => {
           <FaRegEye />
         </button>
         <button
-          disabled={itemInStore(wishlistItems, item)}
-          onClick={() => dispatch(addWishlist(item))}
-          className={`${wishlistItems.includes(item) ? 'bg-red-600 text-white border-white': 'hover:bg-rose-600 hover:text-white hover:border-white border-gray-600'} flex w-8 h-8 justify-center items-center border rounded-full transition-all duration-200 ease-linear`}
+          className={`flex w-8 h-8 justify-center items-center border border-gray-600  rounded-full transition-all duration-200 ease-linear`}
         >
           <FaRegHeart />
         </button>

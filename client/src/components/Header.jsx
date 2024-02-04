@@ -20,9 +20,6 @@ import Wishlist from "./Wishlist";
 
 const Header = () => {
   const { isLogin, userDetail } = useSelector((state) => state.user);
-  const cartItems = useSelector((state) => state.cart);
-  const wishlistItems = useSelector((state) => state.wishlist);
-
   const dispatch = useDispatch();
   const [toggleCart, setToggleCart] = useState(false);
   const [toggleWishlist, setToggleWishlist] = useState(false);
@@ -61,7 +58,11 @@ const Header = () => {
             onClick={() => setToggleCart(!toggleCart)}
             className="text-xl relative"
           >
-            <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-xs text-white rounded-full">{cartItems.length}</span>
+            {/* {cartItems.length > 0 && (
+              <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-xs text-white rounded-full">
+                {cartItems.length}
+              </span>
+            )} */}
             <IoCartOutline />
           </button>
           <button
@@ -69,7 +70,11 @@ const Header = () => {
             onClick={() => setToggleWishlist(!toggleWishlist)}
             className="text-xl relative"
           >
-            <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-xs text-white rounded-full">{wishlistItems.length}</span>
+            {/* {wishlistItems.length > 0 && (
+              <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-xs text-white rounded-full">
+                {wishlistItems.length}
+              </span>
+            )} */}
             <CiHeart />
           </button>
           {isLogin ? (
