@@ -96,7 +96,9 @@ const Header = () => {
                   <p className="font-bold">Signed in as</p>
                   <p className="font-bold">{userDetail.email}</p>
                 </DropdownItem>
-                <DropdownItem key="settings">My Settings</DropdownItem>
+                <DropdownItem as={Link} href="/profile" key="settings">
+                  My Profile
+                </DropdownItem>
                 <DropdownItem key="team_settings">Team Settings</DropdownItem>
                 <DropdownItem key="analytics">Analytics</DropdownItem>
                 <DropdownItem key="system">System</DropdownItem>
