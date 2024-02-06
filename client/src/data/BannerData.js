@@ -1,23 +1,13 @@
 const data = [
     {
         id:1,
-        image: '',
+        image: '/images/banner-image/image1.png',
         slogan: ''
     },
     {
         id:2,
-        image: '',
+        image: '/images/banner-image/image2.png',
         slogan: ''
-    },
-    {
-        id:3,
-        image: '',
-        slogan: ''
-    },
-    {
-        id:4,
-        image: '',
-        slogan: ''
-    },
+    }
 ]
 export default data;

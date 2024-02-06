@@ -1,8 +1,22 @@
-import React from "react";
-import { useSelector } from "react-redux";
+'use client'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const Cart = ({ toggleCart }) => {
-  const cartItems = useSelector((item) => item.cart);
+  const [cartItems, setCartItems] = useState([]);
+
+  const fetchCarts = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:5000/");
+      setCartItems(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchCarts();
+  }, []);
+
   return (
     <section
       className={`fixed w-96 h-screen py-14 border border-black bg-white top-0 transition-all duration-500 ease-linear ${
@@ -15,7 +29,7 @@ const Cart = ({ toggleCart }) => {
       <div className="px-10 pt-4">
         {cartItems.length > 0 ? (
           <div>
-            {cartItems.map((item, id) => (
+            {cartItems?.map((item, id) => (
               <div key={id}>
                 <h3>{item.product}</h3>
               </div>

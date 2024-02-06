@@ -20,7 +20,7 @@ const Main = () => {
 
   return (
     <>
-      {/* <Banner /> */}
+      <Banner />
       <section className="py-28">
         <div className="container flex flex-col items-start gap-6">
           <h2 className="text-4xl font-semibold">Products</h2>

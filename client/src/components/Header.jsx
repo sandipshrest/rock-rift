@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { CiHeart } from "react-icons/ci";
@@ -17,14 +17,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "@/redux/reducerSlice/userSlice";
 import Cart from "./Cart";
 import Wishlist from "./Wishlist";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Header = () => {
   const { isLogin, userDetail } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const router = useRouter();
   const [toggleCart, setToggleCart] = useState(false);
   const [toggleWishlist, setToggleWishlist] = useState(false);
+
+  const [cartItems, setCartItems] = useState([]);
+
+  const fetchCarts = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:5000/");
+      setCartItems(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchCarts();
+  }, []);
+
   return (
-    <header className="py-3 fixed top-0 w-full bg-white z-30 border-b border-gray-300">
+    <header className="py-3 fixed top-0 w-full z-30">
       <div className="container flex items-center justify-between">
         <Link href="/">
           <Image
@@ -58,11 +76,11 @@ const Header = () => {
             onClick={() => setToggleCart(!toggleCart)}
             className="text-xl relative"
           >
-            {/* {cartItems.length > 0 && (
+            {cartItems.length > 0 && (
               <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-xs text-white rounded-full">
                 {cartItems.length}
               </span>
-            )} */}
+            )}
             <IoCartOutline />
           </button>
           <button
@@ -107,7 +125,10 @@ const Header = () => {
                   Help & Feedback
                 </DropdownItem>
                 <DropdownItem
-                  onClick={() => dispatch(logoutUser())}
+                  onClick={() => {
+                    dispatch(logoutUser());
+                    router.push("/");
+                  }}
                   key="logout"
                   color="danger"
                 >
@@ -122,8 +143,8 @@ const Header = () => {
           )}
         </div>
       </div>
-      {/* <Cart toggleCart={toggleCart} />
-      <Wishlist toggleWishlist={toggleWishlist} /> */}
+      <Cart toggleCart={toggleCart} />
+      {/* <Wishlist toggleWishlist={toggleWishlist} /> */}
     </header>
   );
 };
