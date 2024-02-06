@@ -10,11 +10,8 @@ const registerNewUser = async (req, res) => {
     if (existingUser) {
       return res.status(403).json({ msg: "User already exists." });
     } else {
-      const hashPassword = {
-        password: await bcrypt.hash(req.body.password, saltRounds),
-        rePassword: await bcrypt.hash(req.body.rePassword, saltRounds),
-      };
-      req.body = { ...req.body, ...hashPassword };
+      const hashPassword = await bcrypt.hash(req.body.password, saltRounds);
+      req.body.password = hashPassword;
       await User.create(req.body);
       res.status(201).json({ msg: "registered successfully!" });
     }
@@ -51,7 +48,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-// login user
+// change password
 const changePassword = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email: req.body.email });
@@ -61,22 +58,18 @@ const changePassword = async (req, res) => {
         existingUser.password
       );
       if (matchedPassword) {
-        const hashNewPassword = {
-          password: await bcrypt.hash(req.body.newPassword, saltRounds),
-          rePassword: await bcrypt.hash(req.body.confirmPassword, saltRounds),
-        };
-        req.body = { ...req.body, ...hashNewPassword };
-        await User.replaceOne(req.body);
+        const hashNewPassword = await bcrypt.hash(
+          req.body.password,
+          saltRounds
+        );
+        existingUser.password = hashNewPassword;
+        await existingUser.save();
         return res.status(201).json({ msg: "Password change successfully!" });
-        // const token = jwt.sign(
-        //   { email: userDetail.email },
-        //   process?.env.SECRET_KEY
-        // );
       } else {
         return res.status(403).json({ msg: "Password didn't match" });
       }
     } else {
-      return res.status(401).json({ msg: "Email did not match" });
+      return res.status(401).json({ msg: "Email did't match" });
     }
   } catch (err) {
     res.status(400).json({ msg: "Fail to change password" });
