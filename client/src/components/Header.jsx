@@ -55,7 +55,7 @@ const Header = () => {
           />
         </Link>
         <nav>
-          <ul className="flex items-center font-medium gap-6">
+          <ul className="flex items-center font-semibold gap-6">
             <li>
               <Link href="/">Home</Link>
             </li>
@@ -74,7 +74,7 @@ const Header = () => {
           <button
             disabled={toggleWishlist}
             onClick={() => setToggleCart(!toggleCart)}
-            className="text-xl relative"
+            className="text-2xl relative"
           >
             {cartItems.length > 0 && (
               <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-xs text-white rounded-full">
@@ -86,7 +86,7 @@ const Header = () => {
           <button
             disabled={toggleCart}
             onClick={() => setToggleWishlist(!toggleWishlist)}
-            className="text-xl relative"
+            className="text-2xl relative"
           >
             {/* {wishlistItems.length > 0 && (
               <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-xs text-white rounded-full">
@@ -104,9 +104,11 @@ const Header = () => {
                     isBordered: true,
                     src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
                   }}
-                  className="transition-transform"
-                  description={userDetail.email}
+                  className="transition-transforml"
                   name={userDetail.fullName}
+                  classNames={{
+                    name: "text-lg font-semibold",
+                  }}
                 />
               </DropdownTrigger>
               <DropdownMenu aria-label="User Actions" variant="flat">

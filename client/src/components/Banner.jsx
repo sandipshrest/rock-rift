@@ -48,7 +48,7 @@ const Banner = () => {
             <div className="container w-full flex pt-16">
               <div className="w-2/3 flex items-center inset-0 pt-[78px]">
                 <div className="lg:w-4/5 md:w-2/3 w-full flex flex-col items-start gap-4">
-                  <h1 className="lg:text-7xl md:text-5xl sm:text-4xl text-3xl font-extrabold text-black">
+                  <h1 className="lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-extrabold text-black">
                     <span className="mr-1 text-brand1">
                       {item.slogan.split(" ")[0]}
                     </span>

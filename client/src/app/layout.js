@@ -3,6 +3,7 @@ import "./globals.css";
 import NextUIProvider from "./Providers";
 import ReduxProvider from "@/redux/reduxProvider";
 import { Toaster } from "react-hot-toast";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Create Next App",
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
           <NextUIProvider>
             <Header />
             {children}
+            <Footer />
             <Toaster
               position="top-right"
               gutter={12}
