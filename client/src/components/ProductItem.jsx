@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 const ProductItem = ({ item }) => {
   const { isLogin } = useSelector((state) => state.user);
   const [cartItems, setCartItems] = useState([]);
+  const [wishlistItems, setWishlistItems] = useState([]);
 
   const fetchCart = async () => {
     try {
@@ -20,9 +21,19 @@ const ProductItem = ({ item }) => {
       console.log(err);
     }
   };
+  const fetchWishlist = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/");
+      const data = await response.json();
+      setWishlistItems(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     fetchCart();
+    fetchWishlist();
   }, []);
 
   const itemInStore = (itemList, item) => {
@@ -41,6 +52,22 @@ const ProductItem = ({ item }) => {
       }
     } catch (err) {
       toast.error("Failed to add to the cart!");
+    }
+  };
+
+
+  const handleAddWishlist = async (value) => {
+    try {
+      const response = await fetch("http://localhost:5000/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(value),
+      });
+      if (response.ok) {
+        fetchWishlist();
+      }
+    } catch (err) {
+      toast.error("Failed to add to the wishlist!");
     }
   };
 
@@ -70,6 +97,12 @@ const ProductItem = ({ item }) => {
           <FaRegEye />
         </button>
         <button
+          disabled={itemInStore(wishlistItems, item)}
+          onClick={() => {
+            isLogin
+              ? handleAddWishlist(item)
+              : toast.error("Login first to add wishlist!");
+          }}
           className={`flex w-8 h-8 justify-center items-center border border-gray-600  rounded-full transition-all duration-200 ease-linear`}
         >
           <FaRegHeart />

@@ -1,8 +1,21 @@
-import React from "react";
-import { useSelector } from "react-redux";
+"use client";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const Wishlist = ({ toggleWishlist }) => {
-  const wishlistItems = useSelector((item) => item.wishlist);
+  const [wishlistItems, setWishlistItems] = useState([]);
+  const fetchWishlist = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:5000/");
+      setWishlistItems(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchWishlist();
+  }, []);
+
   return (
     <section
       className={`fixed w-96 h-screen py-14 border border-black bg-white top-0 transition-all duration-500 ease-linear ${

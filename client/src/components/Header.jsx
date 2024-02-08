@@ -28,6 +28,7 @@ const Header = () => {
   const [toggleWishlist, setToggleWishlist] = useState(false);
 
   const [cartItems, setCartItems] = useState([]);
+  const [wishlistItems, setWishlistItems] = useState([]);
 
   const fetchCarts = async () => {
     try {
@@ -37,8 +38,17 @@ const Header = () => {
       console.log(err);
     }
   };
+  const fetchWishlists = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:5000/");
+      setWishlistItems(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     fetchCarts();
+    fetchWishlists();
   }, []);
 
   return (
@@ -88,11 +98,11 @@ const Header = () => {
             onClick={() => setToggleWishlist(!toggleWishlist)}
             className="text-2xl relative"
           >
-            {/* {wishlistItems.length > 0 && (
+            {wishlistItems.length > 0 && (
               <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-xs text-white rounded-full">
                 {wishlistItems.length}
               </span>
-            )} */}
+            )}
             <CiHeart />
           </button>
           {isLogin ? (
@@ -146,7 +156,7 @@ const Header = () => {
         </div>
       </div>
       <Cart toggleCart={toggleCart} />
-      {/* <Wishlist toggleWishlist={toggleWishlist} /> */}
+      <Wishlist toggleWishlist={toggleWishlist} />
     </header>
   );
 };
