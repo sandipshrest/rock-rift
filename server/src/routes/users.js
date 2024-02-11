@@ -5,5 +5,5 @@ const router = express.Router();
 
 router.post("/register", registerNewUser);
 router.post("/login", loginUser);
-router.patch("/profile", changePassword);
+router.patch("/user", changePassword);
 module.exports = router;

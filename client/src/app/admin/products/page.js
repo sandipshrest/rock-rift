@@ -27,7 +27,7 @@ const Product = () => {
   const fetchProduct = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/admin/categories"
+        "http://localhost:5000/categories"
       );
       setCategories(data);
     } catch (err) {
@@ -42,7 +42,7 @@ const Product = () => {
   const handleAdd = async (values) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/admin/products",
+        "http://localhost:5000/products",
         values
       );
     } catch (err) {

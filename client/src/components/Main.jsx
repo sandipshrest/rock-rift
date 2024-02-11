@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import Banner from "./Banner";
 import axios from "axios";
 import ProductItem from "./ProductItem";
+import Feature from "./Feature";
 
 const Main = () => {
   const [products, setProducts] = useState([]);
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/admin/products");
+      const { data } = await axios.get("http://localhost:5000/products");
       setProducts(data);
     } catch (err) {
       console.log(err);
@@ -31,6 +32,7 @@ const Main = () => {
           </div>
         </div>
       </section>
+      <Feature />
     </>
   );
 };

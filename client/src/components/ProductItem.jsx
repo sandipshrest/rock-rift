@@ -6,15 +6,17 @@ import { FaRegEye } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 const ProductItem = ({ item }) => {
+  const router = useRouter();
   const { isLogin } = useSelector((state) => state.user);
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
 
   const fetchCart = async () => {
     try {
-      const response = await fetch("http://localhost:5000/");
+      const response = await fetch("http://localhost:5000/carts");
       const data = await response.json();
       setCartItems(data);
     } catch (err) {
@@ -23,7 +25,7 @@ const ProductItem = ({ item }) => {
   };
   const fetchWishlist = async () => {
     try {
-      const response = await fetch("http://localhost:5000/");
+      const response = await fetch("http://localhost:5000/wishlists");
       const data = await response.json();
       setWishlistItems(data);
     } catch (err) {
@@ -42,7 +44,7 @@ const ProductItem = ({ item }) => {
 
   const handleAddCart = async (value) => {
     try {
-      const response = await fetch("http://localhost:5000/", {
+      const response = await fetch("http://localhost:5000/carts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(value),
@@ -55,10 +57,9 @@ const ProductItem = ({ item }) => {
     }
   };
 
-
   const handleAddWishlist = async (value) => {
     try {
-      const response = await fetch("http://localhost:5000/", {
+      const response = await fetch("http://localhost:5000/wishlists", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(value),
@@ -93,7 +94,10 @@ const ProductItem = ({ item }) => {
         >
           <FiShoppingCart />
         </button>
-        <button className="flex w-8 h-8 justify-center items-center border border-gray-600 rounded-full hover:bg-rose-600 hover:text-white hover:border-white transition-all duration-200 ease-linear">
+        <button
+          onClick={() => router.push(`/products/${item._id}`)}
+          className="flex w-8 h-8 justify-center items-center border border-gray-600 rounded-full hover:bg-rose-600 hover:text-white hover:border-white transition-all duration-200 ease-linear"
+        >
           <FaRegEye />
         </button>
         <button
@@ -108,9 +112,11 @@ const ProductItem = ({ item }) => {
           <FaRegHeart />
         </button>
       </div>
+      <div className="flex flex-col items-start gap-1 justify-between grow">
       <h3 className="text-2xl font-bold">{item.product}</h3>
       <small className="font-semibold text-gray-600">{item.category}</small>
       <p>Price: {item.price}</p>
+      </div>
     </div>
   );
 };

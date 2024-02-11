@@ -27,7 +27,7 @@ const page = () => {
 
   const handlePasswordChange = async (values) => {
     try {
-      const response = await fetch("http://localhost:5000/profile/", {
+      const response = await fetch("http://localhost:5000/user", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),

@@ -7,7 +7,7 @@ const Cart = ({ toggleCart }) => {
 
   const fetchCarts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/");
+      const { data } = await axios.get("http://localhost:5000/carts");
       setCartItems(data);
     } catch (err) {
       console.log(err);

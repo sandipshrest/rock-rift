@@ -3,6 +3,7 @@ const userRoute = require("./routes/users");
 const categoryRoute = require("./routes/categories");
 const productRoute = require("./routes/products");
 const cartRoute = require("./routes/carts");
+const wishlistRoute = require("./routes/wishlists");
 const cors = require("cors");
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(userRoute);
 app.use(categoryRoute);
 app.use(productRoute);
 app.use(cartRoute);
+app.use(wishlistRoute);
 require("dotenv").config();
 
 const connection = require("./db/connection");

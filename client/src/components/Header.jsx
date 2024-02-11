@@ -10,7 +10,6 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  Avatar,
   User,
 } from "@nextui-org/react";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,21 +25,34 @@ const Header = () => {
   const router = useRouter();
   const [toggleCart, setToggleCart] = useState(false);
   const [toggleWishlist, setToggleWishlist] = useState(false);
-
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
+  const [scrolled, setScrolled] = useState(false);
+
+  const handleScroll = () => {
+    const scrollTop = window.scrollY;
+    setScrolled(scrollTop > 0);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const fetchCarts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/");
+      const { data } = await axios.get("http://localhost:5000/carts");
       setCartItems(data);
     } catch (err) {
       console.log(err);
     }
   };
+  
   const fetchWishlists = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/");
+      const { data } = await axios.get("http://localhost:5000/wishlists");
       setWishlistItems(data);
     } catch (err) {
       console.log(err);
@@ -52,7 +64,11 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="py-3 fixed top-0 w-full z-30">
+    <header
+      className={`${
+        scrolled ? "bg-white shadow-md" : ""
+      } py-3 fixed top-0 w-full z-30 transition-all duration-300 ease-linear`}
+    >
       <div className="container flex items-center justify-between">
         <Link href="/">
           <Image

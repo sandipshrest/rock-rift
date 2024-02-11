@@ -27,4 +27,13 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-module.exports = { addProduct, getAllProducts };
+const getProductDetailById = async (req, res) => {
+  try {
+    const productDetail = await Product.findById({ _id: req.params.id });
+    res.json(productDetail);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+module.exports = { addProduct, getAllProducts, getProductDetailById };

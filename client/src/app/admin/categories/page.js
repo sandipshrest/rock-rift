@@ -15,7 +15,7 @@ const Category = () => {
   const handleAdd = async (values) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/admin/categories",
+        "http://localhost:5000/categories",
         values
       );
     } catch (err) {
