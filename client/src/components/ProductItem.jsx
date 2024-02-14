@@ -54,7 +54,7 @@ const ProductItem = ({ item }) => {
         body: JSON.stringify(value),
       });
       if (response.ok) {
-        // dispatch(addToCart(value));
+        dispatch(addToCart(value));
         fetchCart();
       }
     } catch (err) {
@@ -70,7 +70,7 @@ const ProductItem = ({ item }) => {
         body: JSON.stringify(value),
       });
       if (response.ok) {
-        // dispatch(addToWishlist(value));
+        dispatch(addToWishlist(value));
         fetchWishlist();
       }
     } catch (err) {

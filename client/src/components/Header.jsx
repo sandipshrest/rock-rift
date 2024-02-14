@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
-import { IoCartOutline } from "react-icons/io5";
+import { IoCartOutline, IoSearch } from "react-icons/io5";
 import { CiHeart } from "react-icons/ci";
 import {
   Dropdown,
@@ -49,7 +49,7 @@ const Header = () => {
       console.log(err);
     }
   };
-  
+
   const fetchWishlists = async () => {
     try {
       const { data } = await axios.get("http://localhost:5000/wishlists");
@@ -96,6 +96,15 @@ const Header = () => {
             </li>
           </ul>
         </nav>
+        <div className="w-1/4 relative">
+          <input
+            type="text"
+            className="border border-gray-700 p-2 rounded w-full"
+          />
+          <button>
+            <IoSearch className="absolute top-1/2 -translate-y-1/2 right-3 text-2xl focus:outline-none" />
+          </button>
+        </div>
         <div className="flex gap-5 items-center">
           <button
             disabled={toggleWishlist}
