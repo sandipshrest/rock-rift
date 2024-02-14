@@ -5,10 +5,13 @@ import { FiShoppingCart } from "react-icons/fi";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { addToCart } from "@/redux/reducerSlice/cartSlice";
+import { addToWishlist } from "@/redux/reducerSlice/wishlistSlice";
 
 const ProductItem = ({ item }) => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const { isLogin } = useSelector((state) => state.user);
   const [cartItems, setCartItems] = useState([]);
@@ -23,6 +26,7 @@ const ProductItem = ({ item }) => {
       console.log(err);
     }
   };
+
   const fetchWishlist = async () => {
     try {
       const response = await fetch("http://localhost:5000/wishlists");
@@ -50,6 +54,7 @@ const ProductItem = ({ item }) => {
         body: JSON.stringify(value),
       });
       if (response.ok) {
+        dispatch(addToCart(value));
         fetchCart();
       }
     } catch (err) {
@@ -65,6 +70,7 @@ const ProductItem = ({ item }) => {
         body: JSON.stringify(value),
       });
       if (response.ok) {
+        dispatch(addToWishlist(value));
         fetchWishlist();
       }
     } catch (err) {
@@ -113,9 +119,9 @@ const ProductItem = ({ item }) => {
         </button>
       </div>
       <div className="flex flex-col items-start gap-1 justify-between grow">
-      <h3 className="text-2xl font-bold">{item.product}</h3>
-      <small className="font-semibold text-gray-600">{item.category}</small>
-      <p>Price: {item.price}</p>
+        <h3 className="text-2xl font-bold">{item.product}</h3>
+        <small className="font-semibold text-gray-600">{item.category}</small>
+        <p>Price: {item.price}</p>
       </div>
     </div>
   );

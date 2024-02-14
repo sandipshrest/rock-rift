@@ -17,6 +17,7 @@ const getCartItems = async (req, res) => {
   try {
     const cartList = await Cart.find();
     res.json(cartList);
+    res.status(201).json({ msg: "Category added successfully!" });
   } catch (err) {
     console.log(err);
   }

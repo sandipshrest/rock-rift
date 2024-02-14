@@ -103,7 +103,7 @@ const Header = () => {
             className="text-2xl relative"
           >
             {cartItems.length > 0 && (
-              <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-xs text-white rounded-full">
+              <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-[10px] text-white rounded-full">
                 {cartItems.length}
               </span>
             )}
@@ -115,7 +115,7 @@ const Header = () => {
             className="text-2xl relative"
           >
             {wishlistItems.length > 0 && (
-              <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-xs text-white rounded-full">
+              <span className="flex justify-center items-center absolute -top-2 -right-2 w-4 h-4 bg-red-600 text-[10px] text-white rounded-full">
                 {wishlistItems.length}
               </span>
             )}
