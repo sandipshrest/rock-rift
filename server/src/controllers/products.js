@@ -27,6 +27,15 @@ const getAllProducts = async (req, res) => {
   }
 };
 
+const getFeatureProducts = async (req, res) => {
+  try {
+    // const featuredProducts = await Product.({ isFeature});
+    // res.json(featuredProducts);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const getProductDetailById = async (req, res) => {
   try {
     const productDetail = await Product.findById({ _id: req.params.id });
@@ -36,4 +45,9 @@ const getProductDetailById = async (req, res) => {
   }
 };
 
-module.exports = { addProduct, getAllProducts, getProductDetailById };
+module.exports = {
+  addProduct,
+  getAllProducts,
+  getFeatureProducts,
+  getProductDetailById,
+};

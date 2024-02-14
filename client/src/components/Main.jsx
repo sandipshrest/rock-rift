@@ -4,6 +4,7 @@ import Banner from "./Banner";
 import axios from "axios";
 import ProductItem from "./ProductItem";
 import Feature from "./Feature";
+import FeatureProduct from "./featureProduct/page";
 
 const Main = () => {
   const [products, setProducts] = useState([]);
@@ -32,6 +33,7 @@ const Main = () => {
           </div>
         </div>
       </section>
+      <FeatureProduct />
       <Feature />
     </>
   );

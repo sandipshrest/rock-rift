@@ -9,6 +9,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
+  Switch,
 } from "@nextui-org/react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
@@ -26,9 +27,7 @@ const Product = () => {
   const [categories, setCategories] = useState([]);
   const fetchProduct = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:5000/categories"
-      );
+      const { data } = await axios.get("http://localhost:5000/categories");
       setCategories(data);
     } catch (err) {
       console.log(err);
@@ -57,6 +56,7 @@ const Product = () => {
         subCategory: "",
         product: "",
         price: "",
+        isFeatured: false,
       },
       validationSchema: ProductSchema,
       onSubmit: (values) => {
@@ -97,6 +97,16 @@ const Product = () => {
                 onChange={handleChange}
               />
               {errors.price && touched.price ? <div>{errors.price}</div> : null}
+              <div>
+                <p>Feature product</p>
+                <Switch
+                  name="isFeatured"
+                  // onClick={(e) => console.log(e.currentTarget)}
+                  value={values.isFeatured}
+                  onChange={handleChange}
+                  aria-label="Automatic updates"
+                />
+              </div>
               <div className="flex justify-between w-full">
                 <Dropdown>
                   <DropdownTrigger>
