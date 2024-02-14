@@ -29,8 +29,8 @@ const getAllProducts = async (req, res) => {
 
 const getFeatureProducts = async (req, res) => {
   try {
-    // const featuredProducts = await Product.({ isFeature});
-    // res.json(featuredProducts);
+    const featuredProducts = await Product.find({ isFeatured: true });
+    res.json(featuredProducts);
   } catch (err) {
     console.log(err);
   }

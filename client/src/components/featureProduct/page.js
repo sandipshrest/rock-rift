@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import ProductItem from "../ProductItem";
 import axios from "axios";
@@ -15,10 +16,9 @@ const FeatureProduct = () => {
   useEffect(() => {
     fetchFeaturedProducts();
   }, []);
-  console.log(featuredProducts);
   return (
     <section className="py-24">
-      <div className="container flex flex-col items-start">
+      <div className="container flex flex-col items-start gap-6">
         <h2 className="text-4xl font-semibold">Feature Products</h2>
         <div className="w-full grid grid-cols-5 gap-6">
           {featuredProducts?.map((item, id) => (
