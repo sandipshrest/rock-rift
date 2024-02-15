@@ -48,7 +48,7 @@ const Header = () => {
   const fetchCarts = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/carts`
+        `${process.env.NEXT_PUBLIC_API_URL}/carts?userId=${userDetail._id}`
       );
       setCartItems(data);
     } catch (err) {

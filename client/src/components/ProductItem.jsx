@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { addToCart } from "@/redux/reducerSlice/cartSlice";
 import { addToWishlist } from "@/redux/reducerSlice/wishlistSlice";
+import axios from "axios";
 
 const ProductItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -19,8 +20,9 @@ const ProductItem = ({ item }) => {
 
   const fetchCart = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/carts`);
-      const data = await response.json();
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/carts?userId=${userDetail._id}`
+      );
       setCartItems(data);
     } catch (err) {
       console.log(err);
