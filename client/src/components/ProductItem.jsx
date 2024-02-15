@@ -13,7 +13,7 @@ import { addToWishlist } from "@/redux/reducerSlice/wishlistSlice";
 const ProductItem = ({ item }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isLogin } = useSelector((state) => state.user);
+  const { isLogin, userDetail } = useSelector((state) => state.user);
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
 
@@ -29,7 +29,9 @@ const ProductItem = ({ item }) => {
 
   const fetchWishlist = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/wishlists`);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/wishlists`
+      );
       const data = await response.json();
       setWishlistItems(data);
     } catch (err) {
@@ -51,7 +53,7 @@ const ProductItem = ({ item }) => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(value),
+        body: JSON.stringify({ userId: userDetail._id, cart: value }),
       });
       if (response.ok) {
         dispatch(addToCart(value));
@@ -64,11 +66,14 @@ const ProductItem = ({ item }) => {
 
   const handleAddWishlist = async (value) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/wishlists`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(value),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/wishlists`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(value),
+        }
+      );
       if (response.ok) {
         dispatch(addToWishlist(value));
         fetchWishlist();
