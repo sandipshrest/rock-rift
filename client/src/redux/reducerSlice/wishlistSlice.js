@@ -5,7 +5,7 @@ const wishlistSlice = createSlice({
   initialState: [],
   reducers: {
     addToWishlist: (state, action) => {
-      state.push(action.payload);
+      state.push(action.payload._id);
     },
     removeFromWishlist: (state, action) => {
       //   return {

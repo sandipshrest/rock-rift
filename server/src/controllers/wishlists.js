@@ -7,6 +7,7 @@ const addWishlist = async (req, res) => {
       category: req.body.category,
       product: req.body.product,
     });
+    res.json({msg: 'Wishlist added successfully!'})
   } catch (err) {
     console.log(err);
   }

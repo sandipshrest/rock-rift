@@ -21,8 +21,12 @@ import axios from "axios";
 
 const Header = () => {
   const { isLogin, userDetail } = useSelector((state) => state.user);
+  const cart = useSelector((state) => state.cart);
+  const wishlist = useSelector((state) => state.wishlist);
+
   const dispatch = useDispatch();
   const router = useRouter();
+
   const [toggleCart, setToggleCart] = useState(false);
   const [toggleWishlist, setToggleWishlist] = useState(false);
   const [cartItems, setCartItems] = useState([]);
@@ -43,7 +47,9 @@ const Header = () => {
 
   const fetchCarts = async () => {
     try {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/carts`);
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/carts`
+      );
       setCartItems(data);
     } catch (err) {
       console.log(err);
@@ -52,16 +58,19 @@ const Header = () => {
 
   const fetchWishlists = async () => {
     try {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/wishlists`);
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/wishlists`
+      );
       setWishlistItems(data);
     } catch (err) {
       console.log(err);
     }
   };
+
   useEffect(() => {
     fetchCarts();
     fetchWishlists();
-  }, []);
+  }, [cart, wishlist]);
 
   return (
     <header
@@ -180,8 +189,8 @@ const Header = () => {
           )}
         </div>
       </div>
-      <Cart toggleCart={toggleCart} />
-      <Wishlist toggleWishlist={toggleWishlist} />
+      <Cart cartItems={cartItems} toggleCart={toggleCart} />
+      <Wishlist wishlistItems={wishlistItems} toggleWishlist={toggleWishlist} />
     </header>
   );
 };

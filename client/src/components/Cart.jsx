@@ -1,21 +1,20 @@
-'use client'
+"use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const Cart = ({ toggleCart }) => {
-  const [cartItems, setCartItems] = useState([]);
-
-  const fetchCarts = async () => {
-    try {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/carts`);
-      setCartItems(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  useEffect(() => {
-    fetchCarts();
-  }, []);
+const Cart = ({ cartItems, toggleCart }) => {
+  // const [cartItems, setCartItems] = useState([]);
+  // const fetchCarts = async () => {
+  //   try {
+  //     const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/carts`);
+  //     setCartItems(data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchCarts();
+  // }, []);
 
   return (
     <section

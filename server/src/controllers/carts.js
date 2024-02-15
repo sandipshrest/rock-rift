@@ -7,6 +7,7 @@ const addCart = async (req, res) => {
       category: req.body.category,
       product: req.body.product,
     });
+    res.json({ msg: "Cart added successfully!" });
   } catch (err) {
     console.log(err);
   }

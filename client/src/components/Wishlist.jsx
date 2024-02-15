@@ -2,19 +2,19 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const Wishlist = ({ toggleWishlist }) => {
-  const [wishlistItems, setWishlistItems] = useState([]);
-  const fetchWishlist = async () => {
-    try {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/wishlists`);
-      setWishlistItems(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  useEffect(() => {
-    fetchWishlist();
-  }, []);
+const Wishlist = ({ wishlistItems, toggleWishlist }) => {
+  // const [wishlistItems, setWishlistItems] = useState([]);
+  // const fetchWishlist = async () => {
+  //   try {
+  //     const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/wishlists`);
+  //     setWishlistItems(data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchWishlist();
+  // }, []);
 
   return (
     <section
