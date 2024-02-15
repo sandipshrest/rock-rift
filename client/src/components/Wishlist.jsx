@@ -6,7 +6,7 @@ const Wishlist = ({ toggleWishlist }) => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const fetchWishlist = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/wishlists");
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/wishlists`);
       setWishlistItems(data);
     } catch (err) {
       console.log(err);

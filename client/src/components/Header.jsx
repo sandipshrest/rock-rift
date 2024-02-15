@@ -43,7 +43,7 @@ const Header = () => {
 
   const fetchCarts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/carts");
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/carts`);
       setCartItems(data);
     } catch (err) {
       console.log(err);
@@ -52,7 +52,7 @@ const Header = () => {
 
   const fetchWishlists = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/wishlists");
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/wishlists`);
       setWishlistItems(data);
     } catch (err) {
       console.log(err);
@@ -99,10 +99,10 @@ const Header = () => {
         <div className="w-1/4 relative">
           <input
             type="text"
-            className="border border-gray-700 p-2 rounded w-full"
+            className="border bg-transparent focus:outline-none border-gray-700 p-2 rounded w-full"
           />
           <button>
-            <IoSearch className="absolute top-1/2 -translate-y-1/2 right-3 text-2xl focus:outline-none" />
+            <IoSearch className="absolute top-1/2 -translate-y-1/2 right-3 text-2xl" />
           </button>
         </div>
         <div className="flex gap-5 items-center">

@@ -10,7 +10,7 @@ const Main = () => {
   const [products, setProducts] = useState([]);
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/products");
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
       setProducts(data);
     } catch (err) {
       console.log(err);

@@ -12,7 +12,7 @@ const Page = ({ params }) => {
   // fetching cartlist, wishlist & productdetail
   const fetchCart = async () => {
     try {
-      const response = await fetch("http://localhost:5000/carts");
+      const response = await fetch( `${process.env.NEXT_PUBLIC_API_URL}/carts`);
       const data = await response.json();
       setCartItems(data);
     } catch (err) {
@@ -22,7 +22,7 @@ const Page = ({ params }) => {
 
   const fetchWishlist = async () => {
     try {
-      const response = await fetch("http://localhost:5000/wishlists");
+      const response = await fetch( `${process.env.NEXT_PUBLIC_API_URL}/wishlists`);
       const data = await response.json();
       setWishlistItems(data);
     } catch (err) {
@@ -33,7 +33,7 @@ const Page = ({ params }) => {
   const fetchProductDetail = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/products/${params.id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/products/${params.id}`
       );
       setProduct(data);
     } catch (err) {
@@ -55,7 +55,7 @@ const Page = ({ params }) => {
   // add to cart function
   const handleAddCart = async (value) => {
     try {
-      const response = await fetch("http://localhost:5000/carts", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(value),
@@ -71,7 +71,7 @@ const Page = ({ params }) => {
   // add to wishlist function
   const handleAddWishlist = async (value) => {
     try {
-      const response = await fetch("http://localhost:5000/wishlists", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/wishlists`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(value),

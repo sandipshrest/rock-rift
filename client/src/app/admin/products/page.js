@@ -27,7 +27,7 @@ const Product = () => {
   const [categories, setCategories] = useState([]);
   const fetchProduct = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/categories");
+      const { data } = await axios.get( `${process.env.NEXT_PUBLIC_API_URL}/categories`);
       setCategories(data);
     } catch (err) {
       console.log(err);
@@ -41,7 +41,7 @@ const Product = () => {
   const handleAdd = async (values) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/products",
+        `${process.env.NEXT_PUBLIC_API_URL}/products`,
         values
       );
     } catch (err) {

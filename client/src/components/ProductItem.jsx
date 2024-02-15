@@ -19,7 +19,7 @@ const ProductItem = ({ item }) => {
 
   const fetchCart = async () => {
     try {
-      const response = await fetch("http://localhost:5000/carts");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/carts`);
       const data = await response.json();
       setCartItems(data);
     } catch (err) {
@@ -29,7 +29,7 @@ const ProductItem = ({ item }) => {
 
   const fetchWishlist = async () => {
     try {
-      const response = await fetch("http://localhost:5000/wishlists");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/wishlists`);
       const data = await response.json();
       setWishlistItems(data);
     } catch (err) {
@@ -48,7 +48,7 @@ const ProductItem = ({ item }) => {
 
   const handleAddCart = async (value) => {
     try {
-      const response = await fetch("http://localhost:5000/carts", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(value),
@@ -64,7 +64,7 @@ const ProductItem = ({ item }) => {
 
   const handleAddWishlist = async (value) => {
     try {
-      const response = await fetch("http://localhost:5000/wishlists", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/wishlists`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(value),
