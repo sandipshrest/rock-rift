@@ -32,7 +32,7 @@ const ProductItem = ({ item }) => {
   const fetchWishlist = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/wishlists`
+        `${process.env.NEXT_PUBLIC_API_URL}/wishlists?userId=${userDetail._id}`
       );
       const data = await response.json();
       setWishlistItems(data);
@@ -73,7 +73,7 @@ const ProductItem = ({ item }) => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(value),
+          body: JSON.stringify({ userId: userDetail._id, wishlist: value }),
         }
       );
       if (response.ok) {

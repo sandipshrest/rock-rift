@@ -59,7 +59,7 @@ const Header = () => {
   const fetchWishlists = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/wishlists`
+        `${process.env.NEXT_PUBLIC_API_URL}/wishlists?userId=${userDetail._id}`
       );
       setWishlistItems(data);
     } catch (err) {
