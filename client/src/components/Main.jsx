@@ -5,12 +5,15 @@ import axios from "axios";
 import ProductItem from "./ProductItem";
 import Feature from "./Feature";
 import FeatureProduct from "./featureProduct/page";
+import Category from "./category/page";
 
 const Main = () => {
   const [products, setProducts] = useState([]);
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products`
+      );
       setProducts(data);
     } catch (err) {
       console.log(err);
@@ -33,6 +36,7 @@ const Main = () => {
           </div>
         </div>
       </section>
+      <Category />
       <FeatureProduct />
       <Feature />
     </>

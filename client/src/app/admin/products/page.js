@@ -25,7 +25,7 @@ const Product = () => {
 
   // fetching categories & subcategories
   const [categories, setCategories] = useState([]);
-  const fetchProduct = async () => {
+  const fetchCategory = async () => {
     try {
       const { data } = await axios.get( `${process.env.NEXT_PUBLIC_API_URL}/categories`);
       setCategories(data);
@@ -35,7 +35,7 @@ const Product = () => {
   };
 
   useEffect(() => {
-    fetchProduct();
+    fetchCategory();
   }, []);
 
   const handleAdd = async (values) => {
