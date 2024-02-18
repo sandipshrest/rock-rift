@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
@@ -23,17 +23,25 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Register = () => {
+  const inputRef = useRef(null);
   const router = useRouter();
   const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [showReSignupPassword, setShowReSignupPassword] = useState(false);
 
   const handleRegister = async (values) => {
     try {
-      const response = await fetch( `${process.env.NEXT_PUBLIC_API_URL}/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
+      const formData = new FormData();
+      formData.append("avatar", inputRef.current.files[0]);
+      for (let item in values) {
+        formData.append(item, values[item]);
+      }
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/register`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const result = await response.json();
       if (response.status === 201) {
         toast.success(result.msg);
@@ -174,6 +182,7 @@ const Register = () => {
             )}
           </div>
         </div>
+        <input type="file" ref={inputRef} />
         <button type="submit" className="bg-thirdColor text-white py-1 px-2">
           Sign Up
         </button>

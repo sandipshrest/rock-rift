@@ -70,7 +70,7 @@ const Header = () => {
   useEffect(() => {
     fetchCarts();
     fetchWishlists();
-  }, [cart, wishlist]);
+  }, [cart, wishlist, isLogin]);
 
   return (
     <header
@@ -142,17 +142,11 @@ const Header = () => {
           {isLogin ? (
             <Dropdown placement="bottom-start">
               <DropdownTrigger>
-                <User
-                  as="button"
-                  avatarProps={{
-                    isBordered: true,
-                    src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-                  }}
-                  className="transition-transforml"
-                  name={userDetail.fullName}
-                  classNames={{
-                    name: "text-lg font-semibold",
-                  }}
+                <Image
+                  src="http://localhost:5000/avatar/65d244bfa8bc58a966558fe8"
+                  alt="avatar"
+                  width={20}
+                  height={20}
                 />
               </DropdownTrigger>
               <DropdownMenu aria-label="User Actions" variant="flat">

@@ -2,6 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const saltRounds = 10;
+const path = require("path");
 
 // register new user
 const registerNewUser = async (req, res) => {
@@ -12,6 +13,7 @@ const registerNewUser = async (req, res) => {
     } else {
       const hashPassword = await bcrypt.hash(req.body.password, saltRounds);
       req.body.password = hashPassword;
+      req.body.avatar = req.file.filename;
       await User.create(req.body);
       res.status(201).json({ msg: "registered successfully!" });
     }
@@ -76,4 +78,13 @@ const changePassword = async (req, res) => {
   }
 };
 
-module.exports = { registerNewUser, loginUser, changePassword };
+const getUserAvatar = async (req, res) => {
+  try {
+    const userDetail = await User.findById(req.params.id)
+    res.sendFile(path.join(__dirname, '../../uploads/avatar', userDetail.avatar))
+  } catch {
+    res.status(400).json({ msg: "Fail to get avatar" });
+  }
+};
+
+module.exports = { registerNewUser, loginUser, changePassword, getUserAvatar };
