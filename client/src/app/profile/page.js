@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { Input } from "@nextui-org/react";
 import { toast } from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaXmark } from "react-icons/fa6";
+import Image from "next/image";
 
 const PasswordSchema = Yup.object().shape({
   email: Yup.string().required("Required"),
@@ -27,7 +28,7 @@ const page = () => {
 
   const handlePasswordChange = async (values) => {
     try {
-      const response = await fetch( `${process.env.NEXT_PUBLIC_API_URL}/user`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
@@ -60,10 +61,17 @@ const page = () => {
 
   return (
     <>
-      <section className="text-black h-32 bg-gray-100 relative mt-10 py-24">
+      <section className="text-black bg-gray-100 relative mt-20 py-24">
         <div className="container flex items-center gap-10">
           <div className="w-1/2">
             <div className="flex flex-col items-start gap-1">
+              <Image
+                src={`http://localhost:5000/avatar/${userDetail._id}`}
+                alt="avatar"
+                width={2000}
+                height={2000}
+                className="size-28 object-cover object-top rounded-full"
+              />
               <p className="text-2xl font-semibold">{userDetail.fullName}</p>
               <small className="text-gray-500 font-medium">
                 {userDetail.email}

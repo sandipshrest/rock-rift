@@ -143,10 +143,11 @@ const Header = () => {
             <Dropdown placement="bottom-start">
               <DropdownTrigger>
                 <Image
-                  src="http://localhost:5000/avatar/65d244bfa8bc58a966558fe8"
+                  src={`http://localhost:5000/avatar/${userDetail._id}`}
                   alt="avatar"
-                  width={20}
-                  height={20}
+                  width={2000}
+                  height={2000}
+                  className="size-8 object-cover object-top rounded-full"
                 />
               </DropdownTrigger>
               <DropdownMenu aria-label="User Actions" variant="flat">

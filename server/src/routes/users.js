@@ -22,5 +22,5 @@ const upload = multer({ storage: storage });
 router.post("/register", upload.single("avatar"), registerNewUser);
 router.post("/login", loginUser);
 router.patch("/user", changePassword);
-router.patch("/avatar/:id", getUserAvatar);
+router.get("/avatar/:id", getUserAvatar);
 module.exports = router;
