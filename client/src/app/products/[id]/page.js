@@ -12,7 +12,7 @@ const Page = ({ params }) => {
   // fetching cartlist, wishlist & productdetail
   const fetchCart = async () => {
     try {
-      const response = await fetch( `${process.env.NEXT_PUBLIC_API_URL}/carts`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/carts`);
       const data = await response.json();
       setCartItems(data);
     } catch (err) {
@@ -22,7 +22,9 @@ const Page = ({ params }) => {
 
   const fetchWishlist = async () => {
     try {
-      const response = await fetch( `${process.env.NEXT_PUBLIC_API_URL}/wishlists`);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/wishlists`
+      );
       const data = await response.json();
       setWishlistItems(data);
     } catch (err) {
@@ -71,11 +73,14 @@ const Page = ({ params }) => {
   // add to wishlist function
   const handleAddWishlist = async (value) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/wishlists`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(value),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/wishlists`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(value),
+        }
+      );
       if (response.ok) {
         fetchWishlist();
       }
@@ -91,35 +96,47 @@ const Page = ({ params }) => {
         {product && (
           <div className="container flex gap-10">
             <div className="w-1/3"></div>
-            <div className="w-2/3 flex flex-col items-start gap-1">
-              <small className="text-base font-medium">
-                {product.category}
-              </small>
-              <h2 className="text-2xl font-bold">{product.product}</h2>
-              <p>Price: {product.price}</p>
-              <div className="flex items-center gap-5">
-                <button
-                  disabled={itemInStore(cartItems, product)}
-                  onClick={() => {
-                    isLogin
-                      ? handleAddCart(product)
-                      : toast.error("Login first to add cart!");
-                  }}
-                  className="bg-red-600 text-white py-1 px-2"
-                >
-                  Add Cart
-                </button>
-                <button
-                  disabled={itemInStore(wishlistItems, product)}
-                  onClick={() => {
-                    isLogin
-                      ? handleAddWishlist(product)
-                      : toast.error("Login first to add wishlist!");
-                  }}
-                  className="bg-red-600 text-white py-1 px-2"
-                >
-                  Add Wishlist
-                </button>
+            <div className="w-2/3 flex flex-col items-start gap-6">
+              <div className="flex flex-col items-start gap-1">
+                <small className="text-base font-medium">
+                  {product.category}
+                </small>
+                <h2 className="text-2xl font-bold">{product.product}</h2>
+                <p>Price: {product.price}</p>
+                <div className="flex items-center gap-5">
+                  <button
+                    disabled={itemInStore(cartItems, product)}
+                    onClick={() => {
+                      isLogin
+                        ? handleAddCart(product)
+                        : toast.error("Login first to add cart!");
+                    }}
+                    className="bg-red-600 text-white py-1 px-2"
+                  >
+                    Add Cart
+                  </button>
+                  <button
+                    disabled={itemInStore(wishlistItems, product)}
+                    onClick={() => {
+                      isLogin
+                        ? handleAddWishlist(product)
+                        : toast.error("Login first to add wishlist!");
+                    }}
+                    className="bg-red-600 text-white py-1 px-2"
+                  >
+                    Add Wishlist
+                  </button>
+                </div>
+              </div>
+              <div className="w-full flex flex-col items-start gap-1">
+                <h3>Give Feedback</h3>
+                <textarea
+                  name=""
+                  id=""
+                  rows="5"
+                  className="border border-gray-600 w-1/2"
+                ></textarea>
+                <button className="border border-gray-600">submit</button>
               </div>
             </div>
           </div>
