@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -20,6 +20,7 @@ const ProductSchema = Yup.object().shape({
 });
 
 const Product = () => {
+  const inputRef = useRef();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
 
@@ -27,7 +28,9 @@ const Product = () => {
   const [categories, setCategories] = useState([]);
   const fetchCategory = async () => {
     try {
-      const { data } = await axios.get( `${process.env.NEXT_PUBLIC_API_URL}/categories`);
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/categories`
+      );
       setCategories(data);
     } catch (err) {
       console.log(err);
@@ -67,9 +70,13 @@ const Product = () => {
       },
     });
 
+  const uploadImage = () => {
+    console.log(inputRef.current.files);
+  };
+
   return (
     <div className="w-full h-screen flex flex-col gap-8 justify-center items-center bg-black">
-      <div className="w-1/4 flex flex-col items-center gap-5 bg-white py-8 px-10">
+      <div className="w-1/3 flex flex-col items-center gap-5 bg-white py-8 px-10">
         <h1 className="text-2xl font-semibold">Add Product</h1>
         <Formik>
           <form
@@ -97,14 +104,22 @@ const Product = () => {
                 onChange={handleChange}
               />
               {errors.price && touched.price ? <div>{errors.price}</div> : null}
-              <div>
-                <p>Feature product</p>
-                <Switch
-                  name="isFeatured"
-                  // onClick={(e) => console.log(e.currentTarget)}
-                  value={values.isFeatured}
-                  onChange={handleChange}
-                  aria-label="Automatic updates"
+              <div className="w-full flex justify-between items-center">
+                <div>
+                  <p>Feature product</p>
+                  <Switch
+                    name="isFeatured"
+                    // onClick={(e) => console.log(e.currentTarget)}
+                    value={values.isFeatured}
+                    onChange={handleChange}
+                    aria-label="Automatic updates"
+                  />
+                </div>
+                <input
+                  type="file"
+                  onChange={uploadImage}
+                  ref={inputRef}
+                  multiple={true}
                 />
               </div>
               <div className="flex justify-between w-full">
