@@ -1,32 +1,25 @@
 const Feedback = require("../models/feedback");
 
-// add product to the cart
+// add feedback
 const addFeedback = async (req, res) => {
-//   try {
-//     // check if the user cart is alreay exist or not
-//     const existingUserCart = await Cart.findOne({ userId: req.body.userId });
-//     if (existingUserCart) {
-//       existingUserCart.cartItems.push({
-//         category: req.body.cart.category,
-//         product: req.body.cart.product,
-//       });
-//       await existingUserCart.save(); // if exist then push cart item to the existing list
-//     } else {
-//       await Cart.create({
-//         // if not then create new cart store for new user
-//         userId: req.body.userId,
-//         cartItems: [
-//           {
-//             category: req.body.cart.category,
-//             product: req.body.cart.product,
-//           },
-//         ],
-//       });
-//     }
-//     res.json({ msg: "Cart added successfully!" });
-//   } catch (err) {
-//     console.log(err);
-//   }
+  try {
+    const existingProductFeedback = await Feedback.findOne({
+      productId: req.params.productId,
+    });
+    if (existingProductFeedback) {
+      existingProductFeedback.feedbacks.push(req.body);
+      await existingProductFeedback.save(); // if exist then push cart item to the existing list
+    } else {
+      await Feedback.create({
+        // if not then create new cart store for new user
+        productId: req.params.productId,
+        feedbacks: [req.body],
+      });
+    }
+    res.json({ msg: "Feedback submit successfullly!" });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 //get cartlist

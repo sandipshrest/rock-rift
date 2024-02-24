@@ -2,9 +2,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { Formik, useFormik } from "formik";
+import * as Yup from "yup";
+import toast from "react-hot-toast";
+
+const FeedbackSchema = Yup.object().shape({
+  feedback: Yup.string().required("Required"),
+});
 
 const Page = ({ params }) => {
-  const { isLogin } = useSelector((state) => state.user);
+  const { isLogin, userDetail } = useSelector((state) => state.user);
   const [product, setProduct] = useState();
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
@@ -89,6 +96,39 @@ const Page = ({ params }) => {
     }
   };
 
+  const handleFeedback = async (values) => {
+    const formData = {
+      ...values,
+      ...{ userName: userDetail.fullName, userEmail: userDetail.email },
+    };
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/feedback/${product._id}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
+      const result = await response.json();
+      toast.success(result.msg);
+    } catch (err) {
+      toast.error("Filed to send feedback!");
+    }
+  };
+
+  const { handleSubmit, resetForm, handleChange, values, errors, touched } =
+    useFormik({
+      initialValues: {
+        feedback: "",
+      },
+      validationSchema: FeedbackSchema,
+      onSubmit: (values) => {
+        handleFeedback(values);
+        resetForm();
+      },
+    });
+
   return (
     <>
       <section className="py-10"></section>
@@ -128,15 +168,29 @@ const Page = ({ params }) => {
                   </button>
                 </div>
               </div>
-              <div className="w-full flex flex-col items-start gap-1">
+              <div className="w-full flex flex-col items-start gap-3">
                 <h3>Give Feedback</h3>
-                <textarea
-                  name=""
-                  id=""
-                  rows="5"
-                  className="border border-gray-600 w-1/2"
-                ></textarea>
-                <button className="border border-gray-600">submit</button>
+                <Formik>
+                  <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-col gap-1 w-full items-start"
+                  >
+                    <textarea
+                      name="feedback"
+                      id="feedback"
+                      onChange={handleChange}
+                      value={values.feedback}
+                      rows="5"
+                      className="border border-gray-600 w-1/2 p-1"
+                    ></textarea>
+                    <button
+                      type="submit"
+                      className="border border-gray-600 py-1 px-2"
+                    >
+                      submit
+                    </button>
+                  </form>
+                </Formik>
               </div>
             </div>
           </div>
