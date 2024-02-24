@@ -22,17 +22,19 @@ const addFeedback = async (req, res) => {
   }
 };
 
-//get cartlist
-// const getCartItems = async (req, res) => {
-//   try {
-//     const existingUserCart = await Cart.findOne({ userId: req.query.userId });
-//     if (existingUserCart) {
-//       const cartList = existingUserCart.cartItems;
-//       res.json(cartList);
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+// get feedback
+const getFeedbacksByProductId = async (req, res) => {
+  try {
+    const existingProductFeedback = await Feedback.findOne({
+      productId: req.params.productId,
+    });
+    if (existingProductFeedback) {
+      const feedbackList = existingProductFeedback.feedbacks;
+      res.json(feedbackList);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-module.exports = { addFeedback };
+module.exports = { addFeedback, getFeedbacksByProductId };

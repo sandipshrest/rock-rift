@@ -15,6 +15,7 @@ const Page = ({ params }) => {
   const [product, setProduct] = useState();
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
+  const [feedback, setFeedback] = useState([]);
 
   // fetching cartlist, wishlist & productdetail
   const fetchCart = async () => {
@@ -50,10 +51,22 @@ const Page = ({ params }) => {
     }
   };
 
+  const fetchFeedbacks = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/feedback/${params.id}`
+      );
+      setFeedback(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     fetchProductDetail();
     fetchCart();
     fetchWishlist();
+    fetchFeedbacks();
   }, []);
 
   // check if item already exist on list or not
@@ -103,7 +116,7 @@ const Page = ({ params }) => {
     };
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/feedback/${product._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/feedback/${params.id}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -168,33 +181,56 @@ const Page = ({ params }) => {
                   </button>
                 </div>
               </div>
-              <div className="w-full flex flex-col items-start gap-3">
-                <h3>Give Feedback</h3>
-                <Formik>
-                  <form
-                    onSubmit={handleSubmit}
-                    className="flex flex-col gap-1 w-full items-start"
-                  >
-                    <textarea
-                      name="feedback"
-                      id="feedback"
-                      onChange={handleChange}
-                      value={values.feedback}
-                      rows="5"
-                      className="border border-gray-600 w-1/2 p-1"
-                    ></textarea>
-                    <button
-                      type="submit"
-                      className="border border-gray-600 py-1 px-2"
-                    >
-                      submit
-                    </button>
-                  </form>
-                </Formik>
-              </div>
             </div>
           </div>
         )}
+      </section>
+      <section className="py-20 bg-gray-100">
+        <div className="container flex flex-col items-start gap-10">
+          <h2 className="text-2xl font-semibold">Ratings & Reviews</h2>
+          <div className="w-full flex gap-8">
+            <div className="w-1/3 flex flex-col items-start gap-3 bg-white p-4">
+              <h3 className="text-xl font-medium">Give Feedback</h3>
+              <Formik>
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex flex-col gap-1 w-full items-start"
+                >
+                  <textarea
+                    name="feedback"
+                    id="feedback"
+                    onChange={handleChange}
+                    value={values.feedback}
+                    rows="5"
+                    className="border border-gray-600 w-full p-1"
+                  ></textarea>
+                  <button
+                    type="submit"
+                    className="border border-gray-600 py-1 px-2"
+                  >
+                    submit
+                  </button>
+                </form>
+              </Formik>
+            </div>
+            <div className="w-2/3 bg-red-50 p-4 space-y-3">
+              <h3 className="text-xl font-medium">Reviews</h3>
+              <div className="flex flex-col gap-2 w-full">
+                {feedback?.map((item, id) => (
+                  <div
+                    key={id}
+                    className="w-full bg-white shadow p-2 flex flex-col items-start gap-4"
+                  >
+                    <p className="font-medium">{item.feedback}</p>
+                    <small className="font-medium text-gray-600">
+                      {item.userName}
+                    </small>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );

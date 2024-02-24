@@ -7,7 +7,7 @@ const feedbackSchema = new Schema({
     {
       userName: String,
       userEmail: String,
-      message: String,
+      feedback: String,
     },
   ],
 });
