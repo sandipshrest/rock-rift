@@ -43,9 +43,14 @@ const Product = () => {
 
   const handleAdd = async (values) => {
     try {
+      const formData = new FormData();
+      formData.append("productImages", inputRef.current.files);
+      for (let item in values) {
+        formData.append(item, values[item]);
+      }
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/products`,
-        values
+        formData
       );
     } catch (err) {
       console.log(err);
@@ -69,10 +74,6 @@ const Product = () => {
         resetForm();
       },
     });
-
-  const uploadImage = () => {
-    console.log(inputRef.current.files);
-  };
 
   return (
     <div className="w-full h-screen flex flex-col gap-8 justify-center items-center bg-black">
@@ -117,7 +118,6 @@ const Product = () => {
                 </div>
                 <input
                   type="file"
-                  onChange={uploadImage}
                   ref={inputRef}
                   multiple={true}
                 />

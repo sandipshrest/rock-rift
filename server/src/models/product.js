@@ -7,11 +7,7 @@ const productSchema = new Schema({
   subCategory: String,
   price: Number,
   isFeatured: Boolean,
-  productImages: [
-    {
-      String,
-    },
-  ],
+  productImages: [String],
 });
 
 const Product = mongoose.model("Product", productSchema);
