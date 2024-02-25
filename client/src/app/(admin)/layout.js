@@ -1,7 +1,7 @@
-export default function AdminLayout({ children }) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
-}
+import React from "react";
+
+const AdminLayout = ({ children }) => {
+  return <div>{children}</div>;
+};
+
+export default AdminLayout;
