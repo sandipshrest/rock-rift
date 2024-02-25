@@ -45,9 +45,22 @@ const getProductDetailById = async (req, res) => {
   }
 };
 
+const getSearchProduct = async (req, res) => {
+  try {
+    const products = await Product.find();
+    const searchedProducts = products.filter((item) =>
+      item.product.toLowerCase().includes(req.query.productName.toLowerCase())
+    );
+    res.json(searchedProducts);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   addProduct,
   getAllProducts,
   getFeatureProducts,
   getProductDetailById,
+  getSearchProduct,
 };

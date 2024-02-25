@@ -4,6 +4,7 @@ const {
   getAllProducts,
   getFeatureProducts,
   getProductDetailById,
+  getSearchProduct
 } = require("../controllers/products");
 
 const router = express.Router();
@@ -23,4 +24,5 @@ router.post("/products", upload.array("productImages"), addProduct);
 router.get("/products", getAllProducts);
 router.get("/featured", getFeatureProducts);
 router.get("/products/:id", getProductDetailById);
+router.get("/search", getSearchProduct);
 module.exports = router;

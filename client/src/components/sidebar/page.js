@@ -31,7 +31,7 @@ const Sidebar = ({ width, height }) => {
                 catalog ? `${dropdownRef.current.scrollHeight}px` : "0px"
               }`,
             }}
-            className={`overflow-hidden transition-all duration-200 ease-linear w-full text-base bg-gray-100 text-black`}
+            className={`transition-all duration-200 ease-linear w-full text-base bg-gray-100 text-black`}
           >
             <div className="flex w-full flex-col items-start gap-1 p-3">
               <Link href="/" className="w-full">
