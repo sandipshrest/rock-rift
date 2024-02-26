@@ -78,25 +78,29 @@ const Header = () => {
   const handleSearch = async () => {
     if (inputRef.current.value === "") {
       setSearchProduct([]);
-    }
-    try {
-      const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/search?productName=${inputRef.current.value}`
-      );
-      setSearchProduct(data);
-      // dispatch(addToSearchList(data))
-      // router.push('/searchProduct')
-    } catch (err) {
-      console.log(err);
+    } else {
+      try {
+        const { data } = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/search?productName=${inputRef.current.value}`
+        );
+        setSearchProduct(data);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
-  // const handleKeyPress = (e) => {
-  //   if (e.key.toLowerCase() === "enter") {
-  //     e.preventDefault();
-  //     handleSearch();
-  //   }
-  // };
+  const productSearch = () => {
+    router.push(`/searchProduct?search=${inputRef.current.value}`);
+    setSearchProduct([]);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key.toLowerCase() === "enter") {
+      e.preventDefault();
+      productSearch();
+    }
+  };
 
   return (
     <header
@@ -122,7 +126,7 @@ const Header = () => {
                 <Link href="/">Home</Link>
               </li>
               <li>
-                <Link href="/#">Category</Link>
+                <Link href="/#">Products</Link>
               </li>
               <li>
                 <Link href="/#">About</Link>
@@ -137,13 +141,13 @@ const Header = () => {
           <div className="w-2/3 relative">
             <input
               ref={inputRef}
-              // onKeyDown={handleKeyPress}
+              onKeyDown={handleKeyPress}
               onChange={handleSearch}
               type="text"
               placeholder="Search product..."
               className="border bg-transparent focus:outline-none border-gray-700 py-1 px-2 rounded w-full"
             />
-            <button>
+            <button onClick={productSearch}>
               <IoSearch className="absolute top-1/2 -translate-y-1/2 right-3 text-2xl" />
             </button>
             {searchProduct.length > 0 && (
