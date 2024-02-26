@@ -47,10 +47,9 @@ const getProductDetailById = async (req, res) => {
 
 const getSearchProduct = async (req, res) => {
   try {
-    const products = await Product.find();
-    const searchedProducts = products.filter((item) =>
-      item.product.toLowerCase().includes(req.query.productName.toLowerCase())
-    );
+    const searchedProducts = await Product.find({
+      product: { $regex: req.query.productName, $options: "i" },
+    });
     res.json(searchedProducts);
   } catch (err) {
     console.log(err);

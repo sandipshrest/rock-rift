@@ -77,26 +77,26 @@ const Header = () => {
 
   const handleSearch = async () => {
     if (inputRef.current.value === "") {
-      return;
+      setSearchProduct([]);
     }
     try {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/search?productName=${inputRef.current.value}`
       );
       setSearchProduct(data);
-      dispatch(addToSearchList(data))
-      router.push('/searchProduct')
+      // dispatch(addToSearchList(data))
+      // router.push('/searchProduct')
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key.toLowerCase() === "enter") {
-      e.preventDefault();
-      handleSearch();
-    }
-  };
+  // const handleKeyPress = (e) => {
+  //   if (e.key.toLowerCase() === "enter") {
+  //     e.preventDefault();
+  //     handleSearch();
+  //   }
+  // };
 
   return (
     <header
@@ -133,18 +133,33 @@ const Header = () => {
             </ul>
           </nav>
         </div>
-        <div className="flex items-center justify-end gap-14 w-1/3">
+        <div className="flex items-center justify-end gap-14 w-1/2">
           <div className="w-2/3 relative">
             <input
               ref={inputRef}
-              onKeyDown={handleKeyPress}
+              // onKeyDown={handleKeyPress}
+              onChange={handleSearch}
               type="text"
               placeholder="Search product..."
               className="border bg-transparent focus:outline-none border-gray-700 py-1 px-2 rounded w-full"
             />
-            <button onClick={handleSearch}>
+            <button>
               <IoSearch className="absolute top-1/2 -translate-y-1/2 right-3 text-2xl" />
             </button>
+            {searchProduct.length > 0 && (
+              <div className="absolute flex flex-col items-start w-full bg-gray-50 p-2 shadow-md">
+                {searchProduct.map((item, id) => (
+                  <Link
+                    href={`/products/${item._id}`}
+                    onClick={() => setSearchProduct([])}
+                    key={id}
+                    className="inline-block w-full p-1 text-lg font-medium"
+                  >
+                    {item.product}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
           <div className="flex gap-5 items-center">
             <button
