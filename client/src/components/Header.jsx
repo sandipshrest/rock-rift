@@ -22,19 +22,19 @@ import { addToSearchList } from "@/redux/reducerSlice/searchSlice";
 
 const Header = () => {
   const inputRef = useRef(null);
+  const dropdownRefs = useRef([]);
+  const router = useRouter();
   const { isLogin, userDetail } = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
   const wishlist = useSelector((state) => state.wishlist);
-
   const dispatch = useDispatch();
-  const router = useRouter();
-
   const [toggleCart, setToggleCart] = useState(false);
   const [toggleWishlist, setToggleWishlist] = useState(false);
   const [searchProduct, setSearchProduct] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
   const [scrolled, setScrolled] = useState(false);
+  const [currentSelection, setCurrentSelection] = useState(null);
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
@@ -102,6 +102,35 @@ const Header = () => {
     }
   };
 
+  useEffect(() => {
+    const handleChange = (e) => {
+      if (e.key === "ArrowDown") {
+        if (currentSelection === null) {
+          setCurrentSelection(0);
+        } else if (currentSelection === searchProduct.length - 1) {
+          setCurrentSelection(null);
+        } else {
+          setCurrentSelection(currentSelection + 1);
+        }
+      } else if (e.key === "ArrowUp") {
+        if (currentSelection === 0) {
+          setCurrentSelection(null);
+        } else if (currentSelection === null) {
+          setCurrentSelection(searchProduct.length - 1);
+        } else {
+          setCurrentSelection(currentSelection - 1);
+        }
+      }
+    };
+    if (currentSelection !== null) {
+      inputRef.current.value = dropdownRefs.current[currentSelection]?.text;
+    }
+    window.addEventListener("keydown", handleChange);
+    return () => {
+      window.removeEventListener("keydown", handleChange);
+    };
+  }, [currentSelection]);
+
   return (
     <header
       className={`${
@@ -151,13 +180,16 @@ const Header = () => {
               <IoSearch className="absolute top-1/2 -translate-y-1/2 right-3 text-2xl" />
             </button>
             {searchProduct.length > 0 && (
-              <div className="absolute flex flex-col items-start w-full bg-gray-50 p-2 shadow-md">
+              <div className="absolute flex flex-col items-start w-full bg-gray-50 shadow-md">
                 {searchProduct.map((item, id) => (
                   <Link
+                    ref={(element) => (dropdownRefs.current[id] = element)}
                     href={`/products/${item._id}`}
                     onClick={() => setSearchProduct([])}
                     key={id}
-                    className="inline-block w-full p-1 text-lg font-medium"
+                    className={`inline-block w-full p-2 font-medium ${
+                      currentSelection === id ? "bg-gray-200" : ""
+                    }`}
                   >
                     {item.product}
                   </Link>
