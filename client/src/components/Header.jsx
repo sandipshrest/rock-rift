@@ -78,6 +78,7 @@ const Header = () => {
   const handleSearch = async () => {
     if (inputRef.current.value === "") {
       setSearchProduct([]);
+      setCurrentSelection(null);
     } else {
       try {
         const { data } = await axios.get(
@@ -184,8 +185,8 @@ const Header = () => {
                 {searchProduct.map((item, id) => (
                   <Link
                     ref={(element) => (dropdownRefs.current[id] = element)}
-                    href={`/products/${item._id}`}
                     onClick={() => setSearchProduct([])}
+                    href={`/searchProduct?search=${item.product}`}
                     key={id}
                     className={`inline-block w-full p-2 font-medium ${
                       currentSelection === id ? "bg-gray-200" : ""
