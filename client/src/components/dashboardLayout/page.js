@@ -19,7 +19,7 @@ const DashboardLayout = ({ children }) => {
       </header>
       <div className="flex grow">
         <Sidebar width={"w-2/12"} height={"h-full"} />
-        <div className="w-10/12 p-8">{children}</div>
+        <div className="w-10/12">{children}</div>
       </div>
     </div>
   );

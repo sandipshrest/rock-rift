@@ -17,7 +17,7 @@ const Sidebar = ({ width, height }) => {
             onClick={() => setCatalog(!catalog)}
             className="w-full flex items-center justify-between"
           >
-            Catalog{" "}
+            Catalog
             <FaAngleRight
               className={`text-base transition-all duration-200 ease-linear ${
                 catalog ? "rotate-90" : "rotate-0"
@@ -34,7 +34,7 @@ const Sidebar = ({ width, height }) => {
             className={`transition-all duration-200 ease-linear w-full text-base bg-gray-100 text-black`}
           >
             <div className="flex w-full flex-col items-start gap-1 p-3">
-              <Link href="/" className="w-full">
+              <Link href="/admin/productList" className="w-full">
                 Product List
               </Link>
               <Link href="/admin/products" className="w-full">
