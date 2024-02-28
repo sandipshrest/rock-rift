@@ -45,13 +45,21 @@ const Product = () => {
   const handleAdd = async (values) => {
     try {
       const formData = new FormData();
-      formData.append("productImages", inputRef.current.files);
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      inputRef?.current?.files?.forEach((image) => {
+        formData.append("productImages", image);
+      });
       for (let item in values) {
         formData.append(item, values[item]);
       }
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/products`,
-        formData
+        formData,
+        config
       );
     } catch (err) {
       console.log(err);

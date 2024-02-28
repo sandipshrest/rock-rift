@@ -188,7 +188,7 @@ const Header = () => {
                     onClick={() => setSearchProduct([])}
                     href={`/searchProduct?search=${item.product}`}
                     key={id}
-                    className={`inline-block w-full p-2 font-medium ${
+                    className={`inline-block w-full hover:bg-gray-200 p-2 font-medium ${
                       currentSelection === id ? "bg-gray-200" : ""
                     }`}
                   >

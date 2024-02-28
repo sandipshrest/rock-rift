@@ -2,6 +2,7 @@ const Product = require("../models/product");
 
 // add prodctCategory
 const addProduct = async (req, res) => {
+  console.log(req.files);
   try {
     const existingProduct = await Product.findOne({
       product: req.body.product,
@@ -9,6 +10,7 @@ const addProduct = async (req, res) => {
     if (existingProduct) {
       return res.status(403).json({ msg: "Product already added." });
     } else {
+      // req.body.productImage = req.file.filename;
       await Product.create(req.body);
       res.status(201).json({ msg: "Product added successfully!" });
     }
