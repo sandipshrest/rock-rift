@@ -32,7 +32,12 @@ const Category = () => {
               } bg-gray-200 flex flex-col gap-2 justify-center items-center p-8`}
             >
               <h3 className="text-2xl font-semibold">{item.category}</h3>
-              <Link href="#" className="underline font-medium text-red-600">View Product</Link>
+              <Link
+                href={`/category/${item.category}`}
+                className="underline font-medium text-red-600"
+              >
+                View Product
+              </Link>
             </div>
           ))}
         </div>

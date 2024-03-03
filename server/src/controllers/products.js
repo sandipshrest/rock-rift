@@ -29,6 +29,15 @@ const getAllProducts = async (req, res) => {
   }
 };
 
+const getProductByCategory = async (req, res) => {
+  try {
+    const products = await Product.find({ category: req.params.category });
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const getFeatureProducts = async (req, res) => {
   try {
     const featuredProducts = await Product.find({ isFeatured: true });
@@ -64,4 +73,5 @@ module.exports = {
   getFeatureProducts,
   getProductDetailById,
   getSearchProduct,
+  getProductByCategory,
 };
