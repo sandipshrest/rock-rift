@@ -31,10 +31,12 @@ const Header = () => {
   const [toggleCart, setToggleCart] = useState(false);
   const [toggleWishlist, setToggleWishlist] = useState(false);
   const [searchProduct, setSearchProduct] = useState([]);
+  const [productItems, setProductItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
   const [scrolled, setScrolled] = useState(false);
   const [currentSelection, setCurrentSelection] = useState(null);
+  const [showProductMenu, setShowProductMenu] = useState(false);
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
@@ -47,6 +49,18 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  //fetching productItems, cartItems & wishlistItems
+  const fetchProducts = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products`
+      );
+      setProductItems(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const fetchCarts = async () => {
     try {
@@ -71,10 +85,29 @@ const Header = () => {
   };
 
   useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
     fetchCarts();
     fetchWishlists();
   }, [cart, wishlist, isLogin]);
 
+  //store product according to their category
+  const categoryData = {};
+
+  productItems?.forEach((product) => {
+    if (!categoryData[product.category]) {
+      categoryData[product.category] = {
+        category: product.category,
+        products: [product],
+      };
+    } else {
+      categoryData[product.category].products.push(product);
+    }
+  });
+
+  //  search function
   const handleSearch = async () => {
     if (inputRef.current.value === "") {
       setSearchProduct([]);
@@ -136,9 +169,13 @@ const Header = () => {
     <header
       className={`${
         scrolled ? "bg-white shadow-md" : ""
-      } py-3 fixed top-0 w-full z-30 transition-all duration-300 ease-linear`}
+      } fixed top-0 w-full z-30 transition-all duration-300 ease-linear`}
     >
-      <div className="container flex items-center justify-between">
+      <div
+        className={`relative container flex items-center justify-between ${
+          showProductMenu ? "overflow-visible" : "overflow-hidden"
+        }`}
+      >
         <div className="flex items-center w-1/2 gap-14">
           <Link href="/">
             <Image
@@ -155,8 +192,60 @@ const Header = () => {
               <li>
                 <Link href="/">Home</Link>
               </li>
-              <li>
-                <Link href="/#">Products</Link>
+              <li
+                onMouseLeave={() => setShowProductMenu(false)}
+                className="py-8"
+              >
+                <button onMouseEnter={() => setShowProductMenu(true)}>
+                  Products
+                </button>
+                <div
+                  className={`absolute w-full left-0 bg-white border shadow-md p-4 transition-all duration-300 ease-linear ${
+                    showProductMenu
+                      ? "top-[88px] opacity-100"
+                      : "top-24 opacity-0"
+                  }`}
+                >
+                  <div className="w-full grid grid-cols-5 gap-10">
+                    {Object.values(categoryData).map((item, id) => (
+                      <div key={id} className="flex flex-col gap-4">
+                        {/* <img
+                          src={item.thumbnailImage}
+                          alt={item.category}
+                          className="w-full h-48 bg-green-100 object-contain"
+                        /> */}
+                        <div className="flex flex-col gap-2 grow justify-between">
+                          <h3 className="text-xl font-semibold border-b border-gray-400">
+                            {item.category}
+                          </h3>
+                          <ul className="text-base">
+                            {item.products
+                              .slice(0, 4)
+                              .map((productItem, productId) => (
+                                <li key={productId}>
+                                  <Link
+                                    onClick={() => setShowProductMenu(false)}
+                                    href={`/products/${productItem._id}`}
+                                    className="inline-block w-full p-[2px] hover:bg-gray-100"
+                                  >
+                                    {productItem.product}
+                                  </Link>
+                                </li>
+                              ))}
+                          </ul>
+                          <Link
+                            onClick={() => setShowProductMenu(false)}
+                            href="#"
+                            // to={`/categories/${item.category}`}
+                            className="text-base text-gray-600 underline"
+                          >
+                            View More
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </li>
               <li>
                 <Link href="/#">About</Link>
