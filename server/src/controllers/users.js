@@ -80,8 +80,10 @@ const changePassword = async (req, res) => {
 
 const getUserAvatar = async (req, res) => {
   try {
-    const userDetail = await User.findById(req.params.id)
-    res.sendFile(path.join(__dirname, '../../uploads/avatar', userDetail.avatar))
+    const userDetail = await User.findById(req.params.id);
+    res.sendFile(
+      path.join(__dirname, "../../uploads/avatar", userDetail.avatar)
+    );
   } catch {
     res.status(400).json({ msg: "Fail to get avatar" });
   }

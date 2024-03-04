@@ -5,7 +5,7 @@ const {
   getFeatureProducts,
   getProductDetailById,
   getSearchProduct,
-  getProductByCategory
+  getProductByCategory,
 } = require("../controllers/products");
 
 const router = express.Router();
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/products", upload.array("productImages", 2), addProduct);
+router.post("/products", upload.array("productImages"), addProduct);
 router.get("/products", getAllProducts);
 router.get("/products/:category", getProductByCategory);
 router.get("/featured", getFeatureProducts);

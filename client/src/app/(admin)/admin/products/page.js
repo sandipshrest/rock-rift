@@ -50,9 +50,9 @@ const Product = () => {
           "content-type": "multipart/form-data",
         },
       };
-      inputRef?.current?.files?.forEach((image) => {
-        formData.append("productImages", image);
-      });
+      for (let file of inputRef.current.files) {
+        formData.append("productImages", file);
+      }
       for (let item in values) {
         formData.append(item, values[item]);
       }
