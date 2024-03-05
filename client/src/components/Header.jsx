@@ -200,14 +200,14 @@ const Header = () => {
                   Products
                 </button>
                 <div
-                  className={`absolute w-full left-0 bg-white border shadow-md p-4 transition-all duration-300 ease-linear ${
+                  className={`absolute w-full left-0 bg-white border shadow-md p-8 transition-all duration-300 ease-linear ${
                     showProductMenu
                       ? "top-[88px] opacity-100"
                       : "top-24 opacity-0"
                   }`}
                 >
                   <div className="w-full grid grid-cols-5 gap-10">
-                    {Object.values(categoryData).map((item, id) => (
+                    {Object.values(categoryData).slice(0,5).map((item, id) => (
                       <div key={id} className="flex flex-col gap-4">
                         {/* <img
                           src={item.thumbnailImage}

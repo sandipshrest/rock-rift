@@ -42,7 +42,7 @@ const Category = () => {
           ))}
         </div>
         <Link
-          href="/categories"
+          href="/category"
           className="inline-block py-1 px-2 bg-red-600 text-white border border-red-600 font-medium"
         >
           View All

@@ -3,7 +3,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-const Categories = () => {
+const page = () => {
   const [categories, setCategories] = useState([]);
   const fetchCategory = async () => {
     try {
@@ -19,11 +19,13 @@ const Categories = () => {
   useEffect(() => {
     fetchCategory();
   }, []);
+
   return (
     <>
-      <section className="py-24">
+      <section className="py-10"></section>
+      <section className="py-20">
         <div className="container flex flex-col items-center gap-10">
-          <h2 className="text-4xl font-semibold">All Categories</h2>
+          <h2 className="text-3xl font-semibold">Product Categories</h2>
           <div className="w-full grid grid-cols-4 gap-6">
             {categories?.map((item, id) => (
               <div
@@ -31,7 +33,7 @@ const Categories = () => {
                 className="p-5 flex flex-col items-center gap-3 shadow-md"
               >
                 <h3 className="text-2xl font-semibold">{item.category}</h3>
-                <Link href="#" className="text-red-500 font-medium underline">
+                <Link href={`/category/${item.category}`} className="text-red-500 font-medium underline">
                   View Products
                 </Link>
               </div>
@@ -43,4 +45,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default page;
