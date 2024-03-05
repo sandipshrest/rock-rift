@@ -43,7 +43,7 @@ const Page = ({ params }) => {
   const fetchProductDetail = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/products/${params.id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/product/${params.id}`
       );
       setProduct(data);
     } catch (err) {

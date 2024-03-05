@@ -207,42 +207,44 @@ const Header = () => {
                   }`}
                 >
                   <div className="w-full grid grid-cols-5 gap-10">
-                    {Object.values(categoryData).slice(0,5).map((item, id) => (
-                      <div key={id} className="flex flex-col gap-4">
-                        {/* <img
+                    {Object.values(categoryData)
+                      .slice(0, 5)
+                      .map((item, id) => (
+                        <div key={id} className="flex flex-col gap-4">
+                          {/* <img
                           src={item.thumbnailImage}
                           alt={item.category}
                           className="w-full h-48 bg-green-100 object-contain"
                         /> */}
-                        <div className="flex flex-col gap-2 grow justify-between">
-                          <h3 className="text-xl font-semibold border-b border-gray-400">
-                            {item.category}
-                          </h3>
-                          <ul className="text-base">
-                            {item.products
-                              .slice(0, 4)
-                              .map((productItem, productId) => (
-                                <li key={productId}>
-                                  <Link
-                                    onClick={() => setShowProductMenu(false)}
-                                    href={`/products/${productItem._id}`}
-                                    className="inline-block w-full p-[2px] hover:bg-gray-100"
-                                  >
-                                    {productItem.product}
-                                  </Link>
-                                </li>
-                              ))}
-                          </ul>
-                          <Link
-                            onClick={() => setShowProductMenu(false)}
-                            href={`/category/${item.category}`}
-                            className="text-base text-gray-600 underline"
-                          >
-                            View More
-                          </Link>
+                          <div className="flex flex-col gap-2 grow justify-between">
+                            <h3 className="text-xl font-semibold border-b border-gray-400">
+                              {item.category}
+                            </h3>
+                            <ul className="text-base">
+                              {item.products
+                                .slice(0, 4)
+                                .map((productItem, productId) => (
+                                  <li key={productId}>
+                                    <Link
+                                      onClick={() => setShowProductMenu(false)}
+                                      href={`/products/${productItem._id}`}
+                                      className="inline-block w-full p-[2px] hover:bg-gray-100"
+                                    >
+                                      {productItem.product}
+                                    </Link>
+                                  </li>
+                                ))}
+                            </ul>
+                            <Link
+                              onClick={() => setShowProductMenu(false)}
+                              href={`/category/${item.category}`}
+                              className="text-base text-gray-600 underline"
+                            >
+                              View More
+                            </Link>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </div>
               </li>
