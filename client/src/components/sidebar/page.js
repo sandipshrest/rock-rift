@@ -1,23 +1,36 @@
 "use client";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
-import { FaAngleRight } from "react-icons/fa6";
+import { FaAngleRight, FaCartShopping } from "react-icons/fa6";
+import { MdDashboard } from "react-icons/md";
+import { BiCoinStack } from "react-icons/bi";
+import { FaRegUser } from "react-icons/fa";
+import { BiSolidMessageRounded } from "react-icons/bi";
 
 const Sidebar = ({ width, height }) => {
   const dropdownRef = useRef(null);
   const [catalog, setCatalog] = useState(false);
   return (
     <aside className={` ${width} ${height} bg-gray-950 p-8 text-white`}>
-      <ul className="space-y-3 font-medium text-lg">
-        <li>
-          <Link href="/admin/dashboard">Dashboard</Link>
+      <ul className="space-y-3 font-medium">
+        <li className="w-full">
+          <Link
+            href="/admin/dashboard"
+            className="w-full flex items-center gap-2"
+          >
+            <MdDashboard />
+            Dashboard
+          </Link>
         </li>
         <li className="flex flex-col items-start gap-2 w-full">
           <button
             onClick={() => setCatalog(!catalog)}
             className="w-full flex items-center justify-between"
           >
-            Catalog
+            <div className="flex items-center gap-2">
+              <BiCoinStack />
+              Catalog
+            </div>
             <FaAngleRight
               className={`text-base transition-all duration-200 ease-linear ${
                 catalog ? "rotate-90" : "rotate-0"
@@ -49,9 +62,27 @@ const Sidebar = ({ width, height }) => {
             </div>
           </div>
         </li>
-        <li></li>
-        <li></li>
-        <li></li>
+        <li className="w-full">
+          <Link
+            href="/admin/customer"
+            className="w-full flex items-center gap-2"
+          >
+            <FaRegUser />
+            Customers
+          </Link>
+        </li>
+        <li className="w-full">
+          <Link href="/admin/order" className="w-full flex items-center gap-2">
+            <FaCartShopping />
+            Orders
+          </Link>
+        </li>
+        <li className="w-full">
+          <Link href="/admin/review" className="w-full flex items-center gap-2">
+            <BiSolidMessageRounded />
+            Reviews
+          </Link>
+        </li>
       </ul>
     </aside>
   );
