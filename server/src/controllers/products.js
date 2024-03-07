@@ -67,6 +67,14 @@ const getSearchProduct = async (req, res) => {
   }
 };
 
+const deleteProductById = async (req, res) => {
+  try {
+    await Product.findByIdAndDelete({ _id: req.params.id });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   addProduct,
   getAllProducts,
@@ -74,4 +82,5 @@ module.exports = {
   getProductDetailById,
   getSearchProduct,
   getProductByCategory,
+  deleteProductById,
 };

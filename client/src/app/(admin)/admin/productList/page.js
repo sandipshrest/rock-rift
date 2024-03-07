@@ -6,6 +6,17 @@ import { HiDotsVertical } from "react-icons/hi";
 
 const page = () => {
   const [product, setProduct] = useState([]);
+  const [openModal, setOpenModal] = useState(null);
+
+  const handleDelete = async (productId) => {
+    try {
+      const { data } = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/product/${productId}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const fetchProduct = async () => {
     try {
@@ -20,7 +31,15 @@ const page = () => {
 
   useEffect(() => {
     fetchProduct();
-  }, []);
+  }, [handleDelete]);
+
+  const handleModal = (num) => {
+    if (openModal === null || openModal !== num) {
+      setOpenModal(num);
+    } else if (openModal === num) {
+      setOpenModal(null);
+    }
+  };
 
   return (
     <DashboardLayout>
@@ -53,10 +72,21 @@ const page = () => {
                   <td className="ps-6 py-3 font-medium">
                     <p className="w-20">{item.price}</p>
                   </td>
-                  <td className="ps-6 py-3 font-medium">
-                    <button>
+                  <td className="ps-6 py-3 font-medium relative">
+                    <button onClick={() => handleModal(id)}>
                       <HiDotsVertical />
                     </button>
+                    {openModal === id && (
+                      <div className="absolute flex flex-col items-start w-32 gap-2 p-3 bg-gray-50 shadow-md z-10 top-10 -left-16">
+                        <button className="w-full text-start">Edit</button>
+                        <button
+                          onClick={() => handleDelete(item._id)}
+                          className="w-full text-start"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
