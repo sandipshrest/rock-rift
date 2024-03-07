@@ -3,16 +3,30 @@ import DashboardLayout from "@/components/dashboardLayout/page";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
+import { FaXmark } from "react-icons/fa6";
 
 const page = () => {
   const [product, setProduct] = useState([]);
-  const [openModal, setOpenModal] = useState(null);
+  const [productDetail, setProductDetail] = useState();
+  const [openAction, setOpenAction] = useState(null);
+  const [openEditForm, setOpenEditForm] = useState(null);
 
   const handleDelete = async (productId) => {
     try {
       const { data } = await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/product/${productId}`
       );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchProductDetail = async (productId) => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/product/${productId}`
+      );
+      setProductDetail(data);
     } catch (err) {
       console.log(err);
     }
@@ -33,11 +47,11 @@ const page = () => {
     fetchProduct();
   }, [handleDelete]);
 
-  const handleModal = (num) => {
-    if (openModal === null || openModal !== num) {
-      setOpenModal(num);
-    } else if (openModal === num) {
-      setOpenModal(null);
+  const handleAction = (num) => {
+    if (openAction === null || openAction !== num) {
+      setOpenAction(num);
+    } else if (openAction === num) {
+      setOpenAction(null);
     }
   };
 
@@ -73,18 +87,48 @@ const page = () => {
                     <p className="w-20">{item.price}</p>
                   </td>
                   <td className="ps-6 py-3 font-medium relative">
-                    <button onClick={() => handleModal(id)}>
+                    <button onClick={() => handleAction(id)}>
                       <HiDotsVertical />
                     </button>
-                    {openModal === id && (
+                    {openAction === id && (
                       <div className="absolute flex flex-col items-start w-32 gap-2 p-3 bg-gray-50 shadow-md z-10 top-10 -left-16">
-                        <button className="w-full text-start">Edit</button>
                         <button
-                          onClick={() => handleDelete(item._id)}
+                          onClick={() => {
+                            fetchProductDetail(item._id);
+                            setOpenEditForm(id);
+                            setOpenAction(null);
+                          }}
+                          className="w-full text-start"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => {
+                            handleDelete(item._id);
+                            setOpenAction(null);
+                          }}
                           className="w-full text-start"
                         >
                           Delete
                         </button>
+                      </div>
+                    )}
+                    {openEditForm === id && (
+                      <div className="fixed w-full h-full inset-0 z-20 flex justify-center items-center bg-black bg-opacity-70">
+                        <div className="w-1/2 p-5 bg-white shadow-lg space-y-2">
+                          <button
+                            onClick={() => setOpenEditForm(null)}
+                            className="size-10 ms-auto bg-white flex items-center justify-center rounded-full shadow-lg"
+                          >
+                            <FaXmark />
+                          </button>
+                          <div className="w-full flex flex-col items-start gap-4">
+                            <h3 className="text-2xl font-semibold">
+                              Edit Productdetail
+                            </h3>
+                          </div>
+                          {JSON.stringify(productDetail)}
+                        </div>
                       </div>
                     )}
                   </td>
