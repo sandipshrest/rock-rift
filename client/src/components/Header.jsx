@@ -171,11 +171,7 @@ const Header = () => {
         scrolled ? "bg-white shadow-md" : ""
       } fixed top-0 w-full z-30 transition-all duration-300 ease-linear`}
     >
-      <div
-        className={`relative container flex items-center justify-between ${
-          showProductMenu ? "overflow-visible" : "overflow-hidden"
-        }`}
-      >
+      <div className={`relative container flex items-center justify-between`}>
         <div className="flex items-center w-1/2 gap-14">
           <Link href="/">
             <Image
@@ -206,7 +202,11 @@ const Header = () => {
                       : "top-24 opacity-0"
                   }`}
                 >
-                  <div className="w-full grid grid-cols-5 gap-10">
+                  <div
+                    className={`w-full grid-cols-5 gap-10 ${
+                      showProductMenu ? "grid" : "hidden"
+                    }`}
+                  >
                     {Object.values(categoryData)
                       .slice(0, 5)
                       .map((item, id) => (
