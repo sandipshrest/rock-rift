@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 import { FaXmark } from "react-icons/fa6";
+import Link from "next/link";
 
 const page = () => {
   const [product, setProduct] = useState([]);
@@ -55,10 +56,22 @@ const page = () => {
     }
   };
 
+  // if (openAction !== null) {
+  //   document.body.addEventListener("click", setOpenAction(null));
+  // }
+
   return (
     <DashboardLayout>
-      <div className="w-full h-full bg-gray-100 p-5 space-y-4">
-        <h2 className="text-2xl font-semibold">Product List</h2>
+      <div className="w-full h-full bg-gray-100 p-6 space-y-4">
+        <div className="w-full flex items-center justify-between">
+          <h2 className="text-2xl font-semibold">Product List</h2>
+          <Link
+            href="/admin/products"
+            className="py-1 px-2 bg-blue-700 text-white"
+          >
+            Add Product
+          </Link>
+        </div>
         <div className="bg-white">
           <table className="w-full">
             <thead className="border-b-2 sticky bg-white top-0">

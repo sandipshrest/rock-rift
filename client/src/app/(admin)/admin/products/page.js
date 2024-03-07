@@ -14,6 +14,7 @@ import {
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import DashboardLayout from "@/components/dashboardLayout/page";
+import { useRouter } from "next/navigation";
 
 const ProductSchema = Yup.object().shape({
   product: Yup.string().required("Required"),
@@ -21,6 +22,7 @@ const ProductSchema = Yup.object().shape({
 });
 
 const Product = () => {
+  const router = useRouter();
   const inputRef = useRef();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
@@ -56,11 +58,14 @@ const Product = () => {
       for (let item in values) {
         formData.append(item, values[item]);
       }
-      const { data } = await axios.post(
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/products`,
         formData,
         config
       );
+      if (response.status === 201) {
+        router.push("/admin/productList");
+      }
     } catch (err) {
       console.log(err);
     }
