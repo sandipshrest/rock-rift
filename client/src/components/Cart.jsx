@@ -14,60 +14,42 @@ import {
   getKeyValue,
 } from "@nextui-org/react";
 import { columns } from "../data/CartData";
+import { useSelector } from "react-redux";
 
-const UserTable = (props) => {
-  const renderCell = useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
+const CartTable = (props) => {
+  const renderCell = useCallback((product, columnKey) => {
+    const cellValue = product[columnKey];
 
     switch (columnKey) {
-      case "name":
+      case "product":
         return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
+          <div>
+            <p>{product.product}</p>
+          </div>
         );
-      case "role":
+      case "quantity":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{cellValue}</p>
             <p className="text-bold text-sm capitalize text-default-400">
-              {user.team}
+              {/* {product.quantity} */}
             </p>
           </div>
         );
-      case "status":
+      case "price":
         return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[user.status]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
+          <div className="capitalize" size="sm" variant="flat">
+            {product.price}
+          </div>
         );
-      case "actions":
+      case "action":
         return (
           <div className="relative flex items-center gap-2">
-            <Tooltip content="Details">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                view
-              </span>
-            </Tooltip>
-            <Tooltip content="Edit user">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                edit
-              </span>
-            </Tooltip>
-            <Tooltip color="danger" content="Delete user">
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                delete
-              </span>
-            </Tooltip>
+            <button
+              onClick={() => props.deleteCartItem(product._id)}
+              className="bg-red-600 text-white py-1 px-2 cursor-pointer active:opacity-50"
+            >
+              Delete
+            </button>
           </div>
         );
       default:
@@ -78,14 +60,7 @@ const UserTable = (props) => {
   return (
     <Table aria-label="Example table with custom cells">
       <TableHeader columns={columns}>
-        {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-          >
-            {column.name}
-          </TableColumn>
-        )}
+        {(column) => <TableColumn key={column.uid}>{column.name}</TableColumn>}
       </TableHeader>
       <TableBody items={props.cartList}>
         {(item) => (
@@ -105,10 +80,22 @@ const UserTable = (props) => {
 };
 
 const Cart = ({ cartItems, toggleCart }) => {
+  const { userDetail } = useSelector((state) => state.user);
+
+  const deleteCartItem = async (productId) => {
+    try {
+      const { data } = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart/${userDetail._id}?productId=${productId}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <section
-      className={`fixed w-[800px] h-screen py-14 border border-black bg-white top-0 transition-all duration-[1s] ease-linear ${
-        toggleCart ? "left-0" : "-left-[800px]"
+      className={`fixed w-[900px] h-screen py-14 border border-black bg-white top-0 transition-all duration-[1s] ease-linear ${
+        toggleCart ? "left-0" : "-left-[900px]"
       }`}
     >
       <div className="px-10 pb-3 border-b border-black">
@@ -116,7 +103,7 @@ const Cart = ({ cartItems, toggleCart }) => {
       </div>
       <div className="px-10 pt-4">
         {cartItems.length > 0 ? (
-          <UserTable cartList={cartItems} />
+          <CartTable cartList={cartItems} deleteCartItem={deleteCartItem} />
         ) : (
           <div>
             <h3>Your Cart is empty</h3>

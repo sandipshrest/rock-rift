@@ -9,6 +9,7 @@ const addCart = async (req, res) => {
       existingUserCart.cartItems.push({
         category: req.body.cart.category,
         product: req.body.cart.product,
+        price: req.body.cart.price,
       });
       await existingUserCart.save(); // if exist then push cart item to the existing list
     } else {
@@ -42,4 +43,19 @@ const getCartItems = async (req, res) => {
   }
 };
 
-module.exports = { addCart, getCartItems };
+const deleteCartById = async (req, res) => {
+  try {
+    const existingUserCart = await Cart.findOne({ userId: req.params.userId });
+    if (existingUserCart) {
+      const cartList = existingUserCart.cartItems.filter(
+        (item) => item._id === req.query.productId
+      );
+      existingUserCart.cartItems = cartList;
+      await existingUserCart.save();
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+module.exports = { addCart, getCartItems, deleteCartById };

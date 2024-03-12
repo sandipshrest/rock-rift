@@ -7,6 +7,7 @@ const cartSchema = new Schema({
     {
       category: String,
       product: String,
+      price: Number,
     },
   ],
 });
