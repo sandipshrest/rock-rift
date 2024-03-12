@@ -7,6 +7,7 @@ const wishlistSchema = new Schema({
     {
       category: String,
       product: String,
+      price: Number
     },
   ],
 });

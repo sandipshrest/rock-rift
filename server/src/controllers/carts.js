@@ -20,6 +20,7 @@ const addCart = async (req, res) => {
           {
             category: req.body.cart.category,
             product: req.body.cart.product,
+            price: req.body.cart.price,
           },
         ],
       });

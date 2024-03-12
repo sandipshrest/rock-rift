@@ -11,6 +11,7 @@ const addWishlist = async (req, res) => {
       existingUserWishlist.wishlistItems.push({
         category: req.body.wishlist.category,
         product: req.body.wishlist.product,
+        price: req.body.wishlist.price,
       });
       await existingUserWishlist.save(); // if exist then push cart item to the existing list
     } else {
@@ -21,6 +22,7 @@ const addWishlist = async (req, res) => {
           {
             category: req.body.wishlist.category,
             product: req.body.wishlist.product,
+            price: req.body.wishlist.price,
           },
         ],
       });
