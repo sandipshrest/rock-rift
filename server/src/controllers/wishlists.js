@@ -4,7 +4,9 @@ const Wishlist = require("../models/wishlist");
 const addWishlist = async (req, res) => {
   try {
     // check if the user cart is alreay exist or not
-    const existingUserWishlist = await Wishlist.findOne({ userId: req.body.userId });
+    const existingUserWishlist = await Wishlist.findOne({
+      userId: req.body.userId,
+    });
     if (existingUserWishlist) {
       existingUserWishlist.wishlistItems.push({
         category: req.body.wishlist.category,
@@ -32,7 +34,9 @@ const addWishlist = async (req, res) => {
 //get cartlist
 const getWishlistItems = async (req, res) => {
   try {
-    const existingUserWishlist = await Wishlist.findOne({ userId: req.query.userId });
+    const existingUserWishlist = await Wishlist.findOne({
+      userId: req.query.userId,
+    });
     if (existingUserWishlist) {
       const wishlists = existingUserWishlist.wishlistItems;
       res.json(wishlists);
@@ -42,4 +46,22 @@ const getWishlistItems = async (req, res) => {
   }
 };
 
-module.exports = { addWishlist, getWishlistItems };
+const deleteWishlistById = async (req, res) => {
+  // console.log(req.params.userId, req.query.productId);
+  try {
+    const existingUserWishlist = await Wishlist.findOne({
+      userId: req.params.userId,
+    });
+    if (existingUserWishlist) {
+      const wishlists = existingUserWishlist.wishlistItems.filter(
+        (item) => item._id != req.query.productId
+      );
+      existingUserWishlist.wishlistItems = wishlists;
+      await existingUserWishlist.save();
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+module.exports = { addWishlist, getWishlistItems, deleteWishlistById };

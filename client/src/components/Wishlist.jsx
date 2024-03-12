@@ -22,6 +22,16 @@ const Wishlist = ({ wishlistItems, cartItems, toggleWishlist }) => {
     }
   };
 
+  const deleteWishlistItem = async (productId) => {
+    try {
+      const { data } = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/wishlist/${userDetail._id}?productId=${productId}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const itemInStore = (itemList, item) => {
     return itemList?.some((storeItem) => storeItem.product === item.product);
   };
@@ -65,7 +75,10 @@ const Wishlist = ({ wishlistItems, cartItems, toggleWishlist }) => {
                         </button>
                       </td>
                       <td className="p-2">
-                        <button className="py-1 px-2 text-sm bg-red-600 text-white">
+                        <button
+                          onClick={() => deleteWishlistItem(item._id)}
+                          className="py-1 px-2 text-sm bg-red-600 text-white"
+                        >
                           Delete
                         </button>
                       </td>

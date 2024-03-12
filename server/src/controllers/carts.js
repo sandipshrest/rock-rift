@@ -48,7 +48,7 @@ const deleteCartById = async (req, res) => {
     const existingUserCart = await Cart.findOne({ userId: req.params.userId });
     if (existingUserCart) {
       const cartList = existingUserCart.cartItems.filter(
-        (item) => item._id === req.query.productId
+        (item) => item._id != req.query.productId
       );
       existingUserCart.cartItems = cartList;
       await existingUserCart.save();
