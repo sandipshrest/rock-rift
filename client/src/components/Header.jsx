@@ -362,7 +362,11 @@ const Header = () => {
         </div>
       </div>
       <Cart cartItems={cartItems} toggleCart={toggleCart} />
-      <Wishlist wishlistItems={wishlistItems} toggleWishlist={toggleWishlist} />
+      <Wishlist
+        wishlistItems={wishlistItems}
+        cartItems={cartItems}
+        toggleWishlist={toggleWishlist}
+      />
     </header>
   );
 };

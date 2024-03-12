@@ -1,8 +1,31 @@
 "use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-const Wishlist = ({ wishlistItems, toggleWishlist }) => {
+const Wishlist = ({ wishlistItems, cartItems, toggleWishlist }) => {
+  const { userDetail } = useSelector((state) => state.user);
+
+  const handleAddCart = async (value) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: userDetail._id, cart: value }),
+      });
+      if (response.ok) {
+        dispatch(addToCart(value));
+        fetchCart();
+      }
+    } catch (err) {
+      toast.error("Failed to add to the cart!");
+    }
+  };
+
+  const itemInStore = (itemList, item) => {
+    return itemList?.some((storeItem) => storeItem.product === item.product);
+  };
+
   return (
     <section
       className={`fixed w-[900px] h-screen py-14 border border-black bg-white top-0 transition-all duration-500 ease-linear ${
@@ -33,7 +56,11 @@ const Wishlist = ({ wishlistItems, toggleWishlist }) => {
                       </td>
                       <td className="p-2">{item.price}</td>
                       <td className="p-2">
-                        <button className="py-1 px-2 text-sm bg-gray-950 text-white">
+                        <button
+                          disabled={itemInStore(cartItems, item)}
+                          onClick={() => handleAddCart(item)}
+                          className="py-1 px-2 text-sm bg-gray-950 text-white"
+                        >
                           Add to Cart
                         </button>
                       </td>
