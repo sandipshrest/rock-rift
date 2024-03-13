@@ -22,8 +22,15 @@ const addProduct = async (req, res) => {
 //fetch products
 const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
-    res.json(products);
+    if (!req.query.page) {
+      const products = await Product.find();
+      return res.json(products);
+    } else {
+      const count = await Product.find().count();
+      const skipCount = 10 * (req.query.page - 1);
+      const productList = await Product.find().limit(10).skip(skipCount);
+      return res.json({ productList, count });
+    }
   } catch (err) {
     console.log(err);
   }

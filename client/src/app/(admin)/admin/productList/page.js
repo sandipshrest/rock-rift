@@ -5,9 +5,11 @@ import React, { useEffect, useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 import { FaXmark } from "react-icons/fa6";
 import Link from "next/link";
+import { Pagination } from "@nextui-org/react";
 
 const page = () => {
   const [product, setProduct] = useState([]);
+  const [count, setCount] = useState(0);
   const [productDetail, setProductDetail] = useState();
   const [openAction, setOpenAction] = useState(null);
   const [openEditForm, setOpenEditForm] = useState(null);
@@ -33,12 +35,13 @@ const page = () => {
     }
   };
 
-  const fetchProduct = async () => {
+  const fetchProduct = async (page = 1) => {
     try {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/products`
+        `${process.env.NEXT_PUBLIC_API_URL}/products?page=${page}`
       );
-      setProduct(data);
+      setProduct(data.productList);
+      setCount(data.count);
     } catch (err) {
       console.log(err);
     }
@@ -149,6 +152,13 @@ const page = () => {
               ))}
             </tbody>
           </table>
+          <Pagination
+            onChange={(page) => fetchProduct(page)}
+            isCompact
+            showControls
+            total={Math.ceil(count / 10) || 1}
+            initialPage={1}
+          />
         </div>
       </div>
     </DashboardLayout>
