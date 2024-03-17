@@ -2,7 +2,7 @@ const Product = require("../models/product");
 
 // add prodctCategory
 const addProduct = async (req, res) => {
-  // console.log(req.files);
+  // console.log(req.body);
   try {
     const existingProduct = await Product.findOne({
       product: req.body.product,

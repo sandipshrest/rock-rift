@@ -6,14 +6,13 @@ const {
   getProductDetailById,
   getSearchProduct,
   getProductByCategory,
-  deleteProductById
+  deleteProductById,
 } = require("../controllers/products");
 
 const router = express.Router();
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log(req.files);
     cb(null, "uploads/productImages");
   },
   filename: function (req, file, cb) {

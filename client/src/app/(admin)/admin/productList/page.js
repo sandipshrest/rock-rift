@@ -4,8 +4,24 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 import { FaXmark } from "react-icons/fa6";
+import { Formik, useFormik } from "formik";
+import * as Yup from "yup";
 import Link from "next/link";
-import { Pagination } from "@nextui-org/react";
+import {
+  Dropdown,
+  Input,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+  Switch,
+  Pagination,
+} from "@nextui-org/react";
+
+const ProductSchema = Yup.object().shape({
+  product: Yup.string().required("Required"),
+  price: Yup.number().required("Required"),
+});
 
 const page = () => {
   const [product, setProduct] = useState([]);
@@ -13,16 +29,6 @@ const page = () => {
   const [productDetail, setProductDetail] = useState();
   const [openAction, setOpenAction] = useState(null);
   const [openEditForm, setOpenEditForm] = useState(null);
-
-  const handleDelete = async (productId) => {
-    try {
-      const { data } = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/product/${productId}`
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const fetchProductDetail = async (productId) => {
     try {
@@ -47,6 +53,16 @@ const page = () => {
     }
   };
 
+  const handleDelete = async (productId) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/product/${productId}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     fetchProduct();
   }, [handleDelete]);
@@ -62,6 +78,51 @@ const page = () => {
   // if (openAction !== null) {
   //   document.body.addEventListener("click", setOpenAction(null));
   // }
+
+  const handleSave = async (values) => {
+    // try {
+    //   const formData = new FormData();
+    //   const config = {
+    //     headers: {
+    //       "content-type": "multipart/form-data",
+    //     },
+    //   };
+    //   for (let file of inputRef.current.files) {
+    //     formData.append("productImages", file);
+    //   }
+    //   for (let item in values) {
+    //     formData.append(item, values[item]);
+    //   }
+    //   const response = await axios.post(
+    //     `${process.env.NEXT_PUBLIC_API_URL}/products`,
+    //     formData,
+    //     config
+    //   );
+    //   if (response.status === 201) {
+    //     router.push("/admin/productList");
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  };
+
+  const { handleSubmit, resetForm, handleChange, values, errors, touched } =
+    useFormik({
+      initialValues: {
+        category: "",
+        subCategory: "",
+        product: "",
+        price: "",
+        isFeatured: false,
+      },
+      validationSchema: ProductSchema,
+      onSubmit: (values) => {
+        values.category = selectedCategory;
+        values.subCategory = selectedSubCategory;
+        handleSave(values);
+        resetForm();
+      },
+    });
 
   return (
     <DashboardLayout>
@@ -130,20 +191,130 @@ const page = () => {
                       </div>
                     )}
                     {openEditForm === id && (
-                      <div className="fixed w-full h-full inset-0 z-20 flex justify-center items-center bg-black bg-opacity-70">
-                        <div className="w-1/2 p-5 bg-white shadow-lg space-y-2">
+                      <div className="fixed w-full h-full inset-0 z-[100] flex justify-center items-center bg-black bg-opacity-70">
+                        <div className="w-1/2 p-8 bg-white shadow-lg space-y-2">
                           <button
                             onClick={() => setOpenEditForm(null)}
                             className="size-10 ms-auto bg-white flex items-center justify-center rounded-full shadow-lg"
                           >
                             <FaXmark />
                           </button>
-                          <div className="w-full flex flex-col items-start gap-4">
-                            <h3 className="text-2xl font-semibold">
+                          <div className="w-full flex flex-col items-start gap-6">
+                            <h3 className="text-2xl font-bold">
                               Edit Productdetail
                             </h3>
+                            <Formik>
+                              <form
+                                onSubmit={handleSubmit}
+                                className="flex flex-col items-center gap-6 w-full"
+                              >
+                                <div className="flex flex-col items-start w-full gap-5">
+                                  <div className="w-full flex items-center gap-6">
+                                    <input
+                                      type="text"
+                                      name="product"
+                                      variant="underlined"
+                                      label="product"
+                                      value={
+                                        values.product
+                                          ? values.product
+                                          : productDetail?.product
+                                      }
+                                      onChange={handleChange}
+                                      className="border border-gray-500 p-1 w-1/2 focus:outline-none"
+                                    />
+                                    {errors.product && touched.product ? (
+                                      <div>{errors.product}</div>
+                                    ) : null}
+                                    <input
+                                      type="number"
+                                      name="price"
+                                      variant="underlined"
+                                      label="price"
+                                      value={productDetail?.price}
+                                      onChange={handleChange}
+                                      className="border border-gray-500 p-1 w-1/2 focus:outline-none"
+                                    />
+                                    {errors.price && touched.price ? (
+                                      <div>{errors.price}</div>
+                                    ) : null}
+                                  </div>
+                                  <div className="w-full flex justify-between items-center">
+                                    <div>
+                                      <p>Is featured?</p>
+                                      <Switch
+                                        name="isFeatured"
+                                        value={productDetail?.isFeatured}
+                                        onChange={handleChange}
+                                        aria-label="Automatic updates"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="flex justify-between w-full">
+                                    <Dropdown>
+                                      <DropdownTrigger>
+                                        <Button variant="bordered">
+                                          {productDetail?.category}
+                                        </Button>
+                                      </DropdownTrigger>
+                                      {/* <DropdownMenu aria-label="Static Actions">
+                                        {categories.map((item, id) => {
+                                          return (
+                                            <DropdownItem
+                                              onClick={(e) =>
+                                                setSelectedCategory(
+                                                  e.target.outerText
+                                                )
+                                              }
+                                              key={id}
+                                            >
+                                              {item.category}
+                                            </DropdownItem>
+                                          );
+                                        })}
+                                      </DropdownMenu> */}
+                                    </Dropdown>
+                                    <Dropdown>
+                                      <DropdownTrigger>
+                                        <Button variant="bordered">
+                                          {productDetail?.subCategory}
+                                        </Button>
+                                      </DropdownTrigger>
+                                      {/* <DropdownMenu aria-label="Static Actions">
+                                        {categories.map((item) => {
+                                          return (
+                                            item.category ===
+                                              selectedCategory &&
+                                            item.subCategory.map(
+                                              (subCategoryItem, id) => (
+                                                <DropdownItem
+                                                  onClick={(e) =>
+                                                    setSelectedSubCategory(
+                                                      e.target.outerText
+                                                    )
+                                                  }
+                                                  key={id}
+                                                >
+                                                  {subCategoryItem}
+                                                </DropdownItem>
+                                              )
+                                            )
+                                          );
+                                        })}
+                                      </DropdownMenu> */}
+                                    </Dropdown>
+                                  </div>
+                                </div>
+
+                                <button
+                                  type="submit"
+                                  className="bg-thirdColor text-white py-1 px-2"
+                                >
+                                  Save Changes
+                                </button>
+                              </form>
+                            </Formik>
                           </div>
-                          {JSON.stringify(productDetail)}
                         </div>
                       </div>
                     )}
