@@ -109,11 +109,11 @@ const page = () => {
   const { handleSubmit, resetForm, handleChange, values, errors, touched } =
     useFormik({
       initialValues: {
-        category: "",
-        subCategory: "",
-        product: "",
-        price: "",
-        isFeatured: false,
+        category: productDetail ? productDetail.category : "",
+        subCategory: productDetail ? productDetail.subCategory : "",
+        product: productDetail ? productDetail.product : "",
+        price: productDetail ? productDetail.price : "",
+        isFeatured: productDetail ? productDetail.isFeatured : false,
       },
       validationSchema: ProductSchema,
       onSubmit: (values) => {
@@ -181,7 +181,7 @@ const page = () => {
                         </button>
                         <button
                           onClick={() => {
-                            handleDelete(item._id);
+                            handleDelete(item._id);f
                             setOpenAction(null);
                           }}
                           className="w-full text-start"
@@ -192,7 +192,7 @@ const page = () => {
                     )}
                     {openEditForm === id && (
                       <div className="fixed w-full h-full inset-0 z-[100] flex justify-center items-center bg-black bg-opacity-70">
-                        <div className="w-1/2 p-8 bg-white shadow-lg space-y-2">
+                        <div className="w-1/3 p-8 bg-white shadow-lg space-y-2">
                           <button
                             onClick={() => setOpenEditForm(null)}
                             className="size-10 ms-auto bg-white flex items-center justify-center rounded-full shadow-lg"
@@ -209,42 +209,34 @@ const page = () => {
                                 className="flex flex-col items-center gap-6 w-full"
                               >
                                 <div className="flex flex-col items-start w-full gap-5">
-                                  <div className="w-full flex items-center gap-6">
-                                    <input
-                                      type="text"
-                                      name="product"
-                                      variant="underlined"
-                                      label="product"
-                                      value={
-                                        values.product
-                                          ? values.product
-                                          : productDetail?.product
-                                      }
-                                      onChange={handleChange}
-                                      className="border border-gray-500 p-1 w-1/2 focus:outline-none"
-                                    />
-                                    {errors.product && touched.product ? (
-                                      <div>{errors.product}</div>
-                                    ) : null}
-                                    <input
-                                      type="number"
-                                      name="price"
-                                      variant="underlined"
-                                      label="price"
-                                      value={productDetail?.price}
-                                      onChange={handleChange}
-                                      className="border border-gray-500 p-1 w-1/2 focus:outline-none"
-                                    />
-                                    {errors.price && touched.price ? (
-                                      <div>{errors.price}</div>
-                                    ) : null}
-                                  </div>
+                                  <Input
+                                    type="text"
+                                    name="product"
+                                    variant="underlined"
+                                    value={values.product}
+                                    onChange={handleChange}
+                                    className="border border-gray-500 p-1 w-full focus:outline-none"
+                                  />
+                                  {errors.product && touched.product ? (
+                                    <div>{errors.product}</div>
+                                  ) : null}
+                                  <Input
+                                    type="number"
+                                    name="price"
+                                    variant="underlined"
+                                    value={values.price}
+                                    onChange={handleChange}
+                                    className="border border-gray-500 p-1 w-full focus:outline-none"
+                                  />
+                                  {errors.price && touched.price ? (
+                                    <div>{errors.price}</div>
+                                  ) : null}
                                   <div className="w-full flex justify-between items-center">
                                     <div>
                                       <p>Is featured?</p>
                                       <Switch
                                         name="isFeatured"
-                                        value={productDetail?.isFeatured}
+                                        value={values.isFeatured}
                                         onChange={handleChange}
                                         aria-label="Automatic updates"
                                       />
@@ -254,7 +246,7 @@ const page = () => {
                                     <Dropdown>
                                       <DropdownTrigger>
                                         <Button variant="bordered">
-                                          {productDetail?.category}
+                                          {values.category}
                                         </Button>
                                       </DropdownTrigger>
                                       {/* <DropdownMenu aria-label="Static Actions">
@@ -277,7 +269,7 @@ const page = () => {
                                     <Dropdown>
                                       <DropdownTrigger>
                                         <Button variant="bordered">
-                                          {productDetail?.subCategory}
+                                          {values.subCategory}
                                         </Button>
                                       </DropdownTrigger>
                                       {/* <DropdownMenu aria-label="Static Actions">
